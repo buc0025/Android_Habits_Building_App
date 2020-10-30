@@ -1,15 +1,27 @@
 package com.example.habitscalendar.models;
 
+import java.time.LocalDate;
+
 public class Habits {
 
+    private String habitId;
     private String habit;
     private String reason;
-    private int consecutiveDays;
+    private LocalDate startDate;
 
-    public Habits(String habit, String reason, int consecutiveDays) {
+    public Habits(String habitId, String habit, String reason, LocalDate startDate) {
+        this.habitId = habitId;
         this.habit = habit;
         this.reason = reason;
-        this.consecutiveDays = consecutiveDays;
+        this.startDate = startDate;
+    }
+
+    public String getHabitId() {
+        return habitId;
+    }
+
+    public void setHabitId(String habitId) {
+        this.habitId = habitId;
     }
 
     public String getHabit() {
@@ -28,11 +40,11 @@ public class Habits {
         this.reason = reason;
     }
 
-    public int getConsecutiveDays() {
-        return consecutiveDays;
+    public LocalDate getStartDate() {
+        return startDate;
     }
 
-    public void setConsecutiveDays(int consecutiveDays) {
-        this.consecutiveDays = consecutiveDays;
+    public void setStartDate(LocalDate startDate) {
+        this.startDate = startDate;
     }
 }

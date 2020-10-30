@@ -67,20 +67,20 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Target" />
+            android:text="Start Date" />
 
         <Space
             android:layout_width="match_parent"
             android:layout_height="30dp" />
 
         <EditText
-            android:id="@+id/edtTextDays"
+            android:id="@+id/edtTextStartDate"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
             android:gravity="start|top"
-            android:hint="Target Days"
-            android:inputType="phone"
+            android:hint="YYYY-MM-DD"
+            android:inputType="date"
             android:textColorHint="#848282" />
 
         <Space
