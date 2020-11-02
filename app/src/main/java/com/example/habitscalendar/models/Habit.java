@@ -2,14 +2,14 @@ package com.example.habitscalendar.models;
 
 import java.time.LocalDate;
 
-public class Habits {
+public class Habit {
 
     private String habitId;
     private String habit;
     private String reason;
     private LocalDate startDate;
 
-    public Habits(String habitId, String habit, String reason, LocalDate startDate) {
+    public Habit(String habitId, String habit, String reason, LocalDate startDate) {
         this.habitId = habitId;
         this.habit = habit;
         this.reason = reason;
