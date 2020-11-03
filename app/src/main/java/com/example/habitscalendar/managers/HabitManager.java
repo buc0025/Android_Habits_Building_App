@@ -1,24 +1,33 @@
 package com.example.habitscalendar.managers;
 
-import java.util.HashMap;
+import java.util.ArrayList;
 
 public class HabitManager {
 
-    public void updateDailyHabit(Date day) {
+    public void addHabit(Habit habit) {
+
+    }
+
+    public void updateDailyHabit(Habit habit) {
         // Method updates database with daily activity from habit
 
     }
 
-    public boolean isHabitCompleted(Date day) {
+    public boolean isHabitCompleted(Habit habit) {
         // Method checks the weekly and monthly view to see if habit is completed
         return true;
     }
 
-    public Map<Date, Boolean> showProgress() {
+    public List<Date> getHabit(Habit habit) {
         // Method pulls data to populate monthly view
-        Map<Date, Boolean> map = new HashMap<>();
+        List<Date> list = new ArrayList<>();
 
-        return map;
+        return list;
+    }
+
+    public int getStreak(Habit habit) {
+        int streak;
+        return streak;
     }
 
     public void deleteHabit(Habit habit) {
@@ -29,14 +38,15 @@ public class HabitManager {
 /*
  ***************Table Statements for SQL******************
  *
- * CREATE TABLE habit_streak (
- *   id INTEGER PRIMARY KEY AUTOINCREMENT,
- *   habit TEXT,
+ * CREATE TABLE habit_table (
+ *   id VARCHAR,
+ *   name VARCHAR,
+ *   reason VARCHAR,
+ *   start DATE,
  *   streak INTEGER);
  *
  * CREATE TABLE habit_dates (
- *   id INTEGER PRIMARY KEY AUTOINCREMENT,
- *   habit TEXT,
+ *   id VARCHAR,
  *   date DATE);
  *
  */
