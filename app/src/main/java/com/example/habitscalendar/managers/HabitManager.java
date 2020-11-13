@@ -18,7 +18,7 @@ public class HabitManager extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "Habit.db";
     private static final int DATABASE_VERSION = 1;
 
-    private static final String TABLE_NAME = "habit_table";
+    private static final String HABIT_TABLE_NAME = "habit_table";
     private static final String COLUMN_ID = "id";
     private static final String COLUMN_HABIT = "habit";
     private static final String COLUMN_REASON = "reason";
@@ -37,7 +37,7 @@ public class HabitManager extends SQLiteOpenHelper {
         contentValues.put(COLUMN_REASON, habit.getReason());
         contentValues.put(COLUMN_START, String.valueOf(habit.getStartDate()));
 
-        long result = database.insert(TABLE_NAME, null, contentValues);
+        long result = database.insert(HABIT_TABLE_NAME, null, contentValues);
 
         if (result == -1) {
             Toast.makeText(context, "Failed", Toast.LENGTH_SHORT).show();
@@ -79,14 +79,19 @@ public class HabitManager extends SQLiteOpenHelper {
     }
 
     public void deleteHabit(Habit habit) {
-        // Method deletes habit from database
-
+        SQLiteDatabase db = this.getWritableDatabase();
+        long result = db.delete(HABIT_TABLE_NAME, "_id=?", new String[] {habit.getHabitId()});
+        if (result == -1) {
+            Toast.makeText(context, "Delete failed", Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(context, "Successfully deleted", Toast.LENGTH_SHORT).show();
+        }
     }
 
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
         String query =
-                "CREATE TABLE " + TABLE_NAME + " (" +
+                "CREATE TABLE " + HABIT_TABLE_NAME + " (" +
                         COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                         COLUMN_HABIT + " VARCHAR, " +
                         COLUMN_REASON + " VARCHAR, " +
@@ -96,7 +101,7 @@ public class HabitManager extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) {
-        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME);
+        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + HABIT_TABLE_NAME);
         onCreate(sqLiteDatabase);
     }
 }
