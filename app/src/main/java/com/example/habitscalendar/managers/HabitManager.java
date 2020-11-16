@@ -37,7 +37,7 @@ public class HabitManager extends SQLiteOpenHelper {
 
         contentValues.put(COLUMN_HABIT, habit.getHabit());
         contentValues.put(COLUMN_REASON, habit.getReason());
-        contentValues.put(COLUMN_START, String.valueOf(habit.getStartDate()));
+        contentValues.put(COLUMN_START, String.valueOf(habit.getStartDate())); // Won't let me put Date value
 
         long result = database.insert(HABIT_TABLE_NAME, null, contentValues);
 
