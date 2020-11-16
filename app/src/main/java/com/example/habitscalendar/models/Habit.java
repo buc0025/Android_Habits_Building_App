@@ -1,15 +1,16 @@
 package com.example.habitscalendar.models;
 
 import java.time.LocalDate;
+import java.util.Date;
 
 public class Habit {
 
     private String habitId;
     private String habit;
     private String reason;
-    private LocalDate startDate;
+    private Date startDate;
 
-    public Habit(String habitId, String habit, String reason, LocalDate startDate) {
+    public Habit(String habitId, String habit, String reason, Date startDate) {
         this.habitId = habitId;
         this.habit = habit;
         this.reason = reason;
@@ -40,11 +41,11 @@ public class Habit {
         this.reason = reason;
     }
 
-    public LocalDate getStartDate() {
+    public Date getStartDate() {
         return startDate;
     }
 
-    public void setStartDate(LocalDate startDate) {
+    public void setStartDate(Date startDate) {
         this.startDate = startDate;
     }
 }

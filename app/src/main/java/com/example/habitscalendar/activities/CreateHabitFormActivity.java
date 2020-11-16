@@ -11,6 +11,8 @@ import com.example.habitscalendar.R;
 import com.example.habitscalendar.managers.HabitManager;
 import com.example.habitscalendar.models.Habit;
 
+import java.util.Date;
+
 public class CreateHabitFormActivity extends AppCompatActivity {
 
     EditText edtTextHabitName, edtTextReason, edtTextStartDate;
@@ -33,7 +35,7 @@ public class CreateHabitFormActivity extends AppCompatActivity {
                 Habit habit = new Habit(edtTextHabitName.getText().toString().trim(),
                         edtTextHabitName.getText().toString().trim(),
                         edtTextReason.getText().toString().trim(),
-                        edtTextStartDate.getText().toString().trim());
+                        (Date) edtTextStartDate.getText());
 
                 habitManager.addHabit(habit);
             }

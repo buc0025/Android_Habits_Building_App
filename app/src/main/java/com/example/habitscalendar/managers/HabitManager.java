@@ -11,11 +11,13 @@ import androidx.annotation.Nullable;
 import com.example.habitscalendar.models.Habit;
 
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 public class HabitManager extends SQLiteOpenHelper {
 
     private Context context;
-    private static final String DATABASE_NAME = "Habit.db";
+    private static final String DATABASE_NAME = "HabitCalendar.db";
     private static final int DATABASE_VERSION = 1;
 
     private static final String HABIT_TABLE_NAME = "habit_table";
