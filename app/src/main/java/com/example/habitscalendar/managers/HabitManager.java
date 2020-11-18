@@ -37,7 +37,7 @@ public class HabitManager extends SQLiteOpenHelper {
 
         contentValues.put(COLUMN_HABIT, habit.getHabit());
         contentValues.put(COLUMN_REASON, habit.getReason());
-        contentValues.put(COLUMN_START, String.valueOf(habit.getStartDate())); // Won't let me put Date value
+        contentValues.put(COLUMN_START, String.valueOf(habit.getStartDate()));
 
         long result = database.insert(HABIT_TABLE_NAME, null, contentValues);
 
@@ -97,7 +97,7 @@ public class HabitManager extends SQLiteOpenHelper {
                         COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                         COLUMN_HABIT + " VARCHAR, " +
                         COLUMN_REASON + " VARCHAR, " +
-                        COLUMN_START + " DATE);";
+                        COLUMN_START + " VARCHAR);";
         sqLiteDatabase.execSQL(query);
     }
 

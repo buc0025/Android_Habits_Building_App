@@ -11,8 +11,10 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.widget.ListView;
 
 import com.example.habitscalendar.R;
+import com.example.habitscalendar.managers.HabitManager;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -21,11 +23,19 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        ListView listView = (ListView) findViewById(R.id.listView);
+
         SharedPreferences prefs = getSharedPreferences("prefs", MODE_PRIVATE);
         boolean firstStart = prefs.getBoolean("firstStart", true);
         if (firstStart) {
             showStartDialog();
         }
+
+        HabitManager habitManager = new HabitManager(MainActivity.this);
+
+        ListViewAdapter adapter = new ListViewAdapter(this, R.layout.habit_row, habitManager.getAllHabits());
+        listView.setAdapter(adapter);
+
     }
 
     private void showStartDialog() {
