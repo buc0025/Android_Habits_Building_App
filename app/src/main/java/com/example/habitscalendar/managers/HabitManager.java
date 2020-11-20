@@ -2,6 +2,7 @@ package com.example.habitscalendar.managers;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.widget.Toast;
@@ -25,6 +26,7 @@ public class HabitManager extends SQLiteOpenHelper {
     private static final String COLUMN_HABIT = "habit";
     private static final String COLUMN_REASON = "reason";
     private static final String COLUMN_START = "start";
+    public List<Habit> allHabits = new ArrayList<>();
 
     public HabitManager(@Nullable Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -48,18 +50,23 @@ public class HabitManager extends SQLiteOpenHelper {
         }
     }
 
+    public Cursor readAllData(){
+        String query = "SELECT * FROM " + HABIT_TABLE_NAME;
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        Cursor cursor = null;
+        if(db != null){
+            cursor = db.rawQuery(query, null);
+        }
+        return cursor;
+    }
+
     public List<Habit> getAllHabits() {
         List<Habit> listOfAllHabits = new ArrayList<>();
 
-        Habit smoke = new Habit("smoke", "quit smoking", "bad lungs", "11/19/2020");
-        Habit drink = new Habit("drink", "quit drinking", "bad liver", "11/19/2020");
-        Habit run = new Habit("run", "start running", "cardio", "11/19/2020");
-        Habit junk = new Habit("junk", "don't eat junk", "high cholestrol", "11/19/2020");
-
-        listOfAllHabits.add(smoke);
-        listOfAllHabits.add(drink);
-        listOfAllHabits.add(run);
-        listOfAllHabits.add(junk);
+        for (Habit entry : allHabits) {
+            listOfAllHabits.add(entry);
+        }
 
         return listOfAllHabits;
     }

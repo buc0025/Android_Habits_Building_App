@@ -13,4 +13,17 @@
         tools:layout_editor_absoluteX="123dp"
         tools:layout_editor_absoluteY="316dp" />
 
+    <ImageView
+        android:id="@+id/empty_imageview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"/>
+
+    <TextView
+        android:id="@+id/no_data"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text="No Data"
+        android:visibility="gone"/>
+
 </RelativeLayout>
