@@ -8,9 +8,9 @@ public class Habit {
     private String habitId;
     private String habit;
     private String reason;
-    private Date startDate;
+    private String startDate;
 
-    public Habit(String habitId, String habit, String reason, Date startDate) {
+    public Habit(String habitId, String habit, String reason, String startDate) {
         this.habitId = habitId;
         this.habit = habit;
         this.reason = reason;
@@ -41,11 +41,11 @@ public class Habit {
         this.reason = reason;
     }
 
-    public Date getStartDate() {
+    public String getStartDate() {
         return startDate;
     }
 
-    public void setStartDate(Date startDate) {
+    public void setStartDate(String startDate) {
         this.startDate = startDate;
     }
 }

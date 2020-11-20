@@ -35,7 +35,7 @@ public class CreateHabitFormActivity extends AppCompatActivity {
                 Habit habit = new Habit(edtTextHabitName.getText().toString().trim(),
                         edtTextHabitName.getText().toString().trim(),
                         edtTextReason.getText().toString().trim(),
-                        (Date) edtTextStartDate.getText());
+                        edtTextStartDate.getText().toString().trim());
 
                 habitManager.addHabit(habit);
             }

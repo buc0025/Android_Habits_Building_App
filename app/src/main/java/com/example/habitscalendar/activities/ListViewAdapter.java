@@ -19,22 +19,19 @@ public class ListViewAdapter extends ArrayAdapter<Habit> {
 
     private Context context;
     private int resource;
+    private List<Habit> habitList;
 
-    public ListViewAdapter(@NonNull Context context, int resource, @NonNull List<Habit> objects) {
+    public ListViewAdapter(Context context, int resource, List<Habit> objects) {
         super(context, resource, objects);
         this.context = context;
         this.resource = resource;
+        habitList = objects;
     }
 
     @NonNull
     @Override
-    public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
-        String id = getItem(position).getHabitId();
-        String habitName = getItem(position).getHabit();
-        String reason = getItem(position).getReason();
-        String start = getItem(position).getStartDate();
-
-        Habit habit = new Habit(id, habitName, reason, start);
+    public View getView(int position, View convertView, ViewGroup parent) {
+        String habitName = habitList.get(position).getHabit();
 
         LayoutInflater inflater = LayoutInflater.from(context);
         convertView = inflater.inflate(resource, parent, false);

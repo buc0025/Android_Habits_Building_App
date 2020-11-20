@@ -51,6 +51,16 @@ public class HabitManager extends SQLiteOpenHelper {
     public List<Habit> getAllHabits() {
         List<Habit> listOfAllHabits = new ArrayList<>();
 
+        Habit smoke = new Habit("smoke", "quit smoking", "bad lungs", "11/19/2020");
+        Habit drink = new Habit("drink", "quit drinking", "bad liver", "11/19/2020");
+        Habit run = new Habit("run", "start running", "cardio", "11/19/2020");
+        Habit junk = new Habit("junk", "don't eat junk", "high cholestrol", "11/19/2020");
+
+        listOfAllHabits.add(smoke);
+        listOfAllHabits.add(drink);
+        listOfAllHabits.add(run);
+        listOfAllHabits.add(junk);
+
         return listOfAllHabits;
     }
 
