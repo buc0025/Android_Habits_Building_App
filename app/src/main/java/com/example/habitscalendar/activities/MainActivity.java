@@ -44,8 +44,7 @@ public class MainActivity extends AppCompatActivity {
             showStartDialog();
         }
 
-        Cursor cursor = habitManager.readAllData();
-        if (cursor.getCount() == 0) {
+        if (habitManager.getAllHabits().size() == 0) {
             noHabitsWarningImage.setVisibility(View.VISIBLE);
             noHabitsTextView.setVisibility(View.VISIBLE);
         }

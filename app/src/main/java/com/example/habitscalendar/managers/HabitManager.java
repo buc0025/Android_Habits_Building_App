@@ -61,9 +61,9 @@ public class HabitManager extends SQLiteOpenHelper {
     }
 
     public List<Habit> getAllHabits() {
-        List<Habit> listOfAllHabits = new ArrayList<>();
-
         Cursor cursor = readAllData();
+
+        List<Habit> listOfAllHabits = new ArrayList<>(cursor.getCount());
 
         while (cursor.moveToNext()) {
             Habit habit = new Habit(cursor.getString(0), cursor.getString(1),
