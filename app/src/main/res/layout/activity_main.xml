@@ -14,16 +14,19 @@
         tools:layout_editor_absoluteY="316dp" />
 
     <ImageView
-        android:id="@+id/empty_imageview"
+        android:id="@+id/noHabitsWarningImage"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:visibility="gone"/>
 
     <TextView
-        android:id="@+id/no_data"
+        android:id="@+id/noHabitsTextView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:text="No Data"
+        android:gravity="center"
+        android:textSize="30dp"
+        android:textColor="#000"
         android:visibility="gone"/>
 
 </RelativeLayout>

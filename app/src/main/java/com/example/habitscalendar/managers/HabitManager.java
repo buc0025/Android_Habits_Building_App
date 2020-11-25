@@ -26,7 +26,6 @@ public class HabitManager extends SQLiteOpenHelper {
     private static final String COLUMN_HABIT = "habit";
     private static final String COLUMN_REASON = "reason";
     private static final String COLUMN_START = "start";
-    public List<Habit> allHabits = new ArrayList<>();
 
     public HabitManager(@Nullable Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -55,7 +54,7 @@ public class HabitManager extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getReadableDatabase();
 
         Cursor cursor = null;
-        if(db != null){
+        if (db != null) {
             cursor = db.rawQuery(query, null);
         }
         return cursor;
@@ -64,10 +63,14 @@ public class HabitManager extends SQLiteOpenHelper {
     public List<Habit> getAllHabits() {
         List<Habit> listOfAllHabits = new ArrayList<>();
 
-        for (Habit entry : allHabits) {
-            listOfAllHabits.add(entry);
-        }
+        Cursor cursor = readAllData();
 
+        while (cursor.moveToNext()) {
+            Habit habit = new Habit(cursor.getString(0), cursor.getString(1),
+                    cursor.getString(2), cursor.getString(3));
+
+            listOfAllHabits.add(habit);
+        }
         return listOfAllHabits;
     }
 

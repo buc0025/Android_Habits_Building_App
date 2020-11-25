@@ -25,8 +25,8 @@ public class MainActivity extends AppCompatActivity {
 
     HabitManager habitManager;
     ListView listView;
-    ImageView empty_imageview;
-    TextView no_data;
+    ImageView noHabitsWarningImage;
+    TextView noHabitsTextView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,8 +34,8 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         listView = (ListView) findViewById(R.id.listView);
-        empty_imageview = findViewById(R.id.empty_imageview);
-        no_data = findViewById(R.id.no_data);
+        noHabitsWarningImage = findViewById(R.id.noHabitsWarningImage);
+        noHabitsTextView = findViewById(R.id.noHabitsTextView);
         habitManager = new HabitManager(MainActivity.this);
 
         SharedPreferences prefs = getSharedPreferences("prefs", MODE_PRIVATE);
@@ -44,26 +44,14 @@ public class MainActivity extends AppCompatActivity {
             showStartDialog();
         }
 
-
+        Cursor cursor = habitManager.readAllData();
+        if (cursor.getCount() == 0) {
+            noHabitsWarningImage.setVisibility(View.VISIBLE);
+            noHabitsTextView.setVisibility(View.VISIBLE);
+        }
 
         ListViewAdapter adapter = new ListViewAdapter(this, R.layout.habit_row, habitManager.getAllHabits());
         listView.setAdapter(adapter);
-    }
-
-    private void storeData() {
-        Cursor cursor = habitManager.readAllData();
-        if(cursor.getCount() == 0){
-            empty_imageview.setVisibility(View.VISIBLE);
-            no_data.setVisibility(View.VISIBLE);
-        }else{
-            while (cursor.moveToNext()){
-                Habit habit = new Habit(cursor.getString(0), cursor.getString(1),
-                        cursor.getString(2), cursor.getString(3));
-                habitManager.allHabits.add(habit);
-            }
-            empty_imageview.setVisibility(View.GONE);
-            no_data.setVisibility(View.GONE);
-        }
     }
 
     private void showStartDialog() {
