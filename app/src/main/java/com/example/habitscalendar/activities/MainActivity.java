@@ -13,6 +13,8 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.CalendarView;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -21,12 +23,15 @@ import com.example.habitscalendar.R;
 import com.example.habitscalendar.managers.HabitManager;
 import com.example.habitscalendar.models.Habit;
 
+import java.util.List;
+
 public class MainActivity extends AppCompatActivity {
 
-    HabitManager habitManager;
-    ListView listView;
-    ImageView noHabitsWarningImage;
-    TextView noHabitsTextView;
+    private HabitManager habitManager;
+    private ListView listView;
+    private ImageView noHabitsWarningImage;
+    private TextView noHabitsTextView;
+    private List<Habit> habitList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +42,7 @@ public class MainActivity extends AppCompatActivity {
         noHabitsWarningImage = findViewById(R.id.noHabitsWarningImage);
         noHabitsTextView = findViewById(R.id.noHabitsTextView);
         habitManager = new HabitManager(MainActivity.this);
+        habitList = habitManager.getAllHabits();
 
         SharedPreferences prefs = getSharedPreferences("prefs", MODE_PRIVATE);
         boolean firstStart = prefs.getBoolean("firstStart", true);
@@ -51,6 +57,17 @@ public class MainActivity extends AppCompatActivity {
 
         ListViewAdapter adapter = new ListViewAdapter(this, R.layout.habit_row, habitManager.getAllHabits());
         listView.setAdapter(adapter);
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent = new Intent(MainActivity.this, CalendarActivity.class);
+                intent.putExtra("HabitName", habitList.get(position).getHabit());
+                intent.putExtra("HabitReason", habitList.get(position).getReason());
+                intent.putExtra("HabitStartDate", habitList.get(position).getStartDate());
+                startActivity(intent);
+            }
+        });
     }
 
     private void showStartDialog() {

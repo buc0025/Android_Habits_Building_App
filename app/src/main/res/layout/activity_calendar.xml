@@ -40,24 +40,44 @@
         android:layout_width="match_parent"
         android:layout_height="20dp" />
 
-    <TextView
-        android:id="@+id/calendarReason"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textSize="20dp"
-        android:textColor="#000000"
-        android:text="Reason" />
+        android:layout_height="wrap_content">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Reason: "
+            android:textSize="20dp"
+            android:textColor="#000"/>
+        <TextView
+            android:id="@+id/calendarReason"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="20dp"
+            android:textColor="#000000"
+            android:text="Reason" />
+    </LinearLayout>
 
     <Space
         android:layout_width="match_parent"
         android:layout_height="20dp" />
 
-    <TextView
-        android:id="@+id/calendarStartDate"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textSize="20dp"
-        android:textColor="#000000"
-        android:text="Start Date" />
+        android:layout_height="wrap_content">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Start Date: "
+            android:textSize="20dp"
+            android:textColor="#000"/>
+        <TextView
+            android:id="@+id/calendarStartDate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="20dp"
+            android:textColor="#000000"
+            android:text="Start Date" />
+    </LinearLayout>
 
 </LinearLayout>
