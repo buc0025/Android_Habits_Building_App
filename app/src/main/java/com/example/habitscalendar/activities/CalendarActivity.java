@@ -3,16 +3,20 @@ package com.example.habitscalendar.activities;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.widget.TextView;
 
 import com.example.habitscalendar.R;
 import com.github.sundeepk.compactcalendarview.CompactCalendarView;
+import com.github.sundeepk.compactcalendarview.domain.Event;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
+
+import static com.github.sundeepk.compactcalendarview.CompactCalendarView.FILL_LARGE_INDICATOR;
 
 public class CalendarActivity extends AppCompatActivity {
 
@@ -32,6 +36,11 @@ public class CalendarActivity extends AppCompatActivity {
         compactCalendarView = (CompactCalendarView) findViewById(R.id.compactcalendarView);
         compactCalendarView.setUseThreeLetterAbbreviation(true);
         compactCalendarView.setFirstDayOfWeek(Calendar.SUNDAY);
+        compactCalendarView.setEventIndicatorStyle(FILL_LARGE_INDICATOR);
+
+        // Add event1 on December 3, 2020
+        Event event = new Event(Color.RED, 1607026803000L, "Some extra data that I want to store.");
+        compactCalendarView.addEvent(event);
 
         compactCalendarView.setListener(new CompactCalendarView.CompactCalendarViewListener() {
             @Override

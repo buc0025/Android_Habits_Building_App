@@ -3,6 +3,9 @@ package com.example.habitscalendar.activities;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -22,7 +25,10 @@ import android.widget.TextView;
 import com.example.habitscalendar.R;
 import com.example.habitscalendar.managers.HabitManager;
 import com.example.habitscalendar.models.Habit;
+import com.example.habitscalendar.models.WeekDay;
+import com.example.habitscalendar.models.WeekDayAdapter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
@@ -32,6 +38,9 @@ public class MainActivity extends AppCompatActivity {
     private ImageView noHabitsWarningImage;
     private TextView noHabitsTextView;
     private List<Habit> habitList;
+    private RecyclerView recyclerView;
+    private ArrayList<WeekDay> weekDays;
+    private WeekDayAdapter weekDayAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +50,36 @@ public class MainActivity extends AppCompatActivity {
         listView = (ListView) findViewById(R.id.listView);
         noHabitsWarningImage = findViewById(R.id.noHabitsWarningImage);
         noHabitsTextView = findViewById(R.id.noHabitsTextView);
+        habitManager = new HabitManager(MainActivity.this);
+        habitList = habitManager.getAllHabits();
+        recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
+
+        Integer[] dayPics = {R.drawable.ic_day, R.drawable.ic_day, R.drawable.ic_day, R.drawable.ic_day
+                , R.drawable.ic_day, R.drawable.ic_day, R.drawable.ic_day};
+
+        // Create string array
+        String[] dayNames = {"Sun", "Mon", "Tue", "Wed", "Thur", "Fri", "Sat"};
+
+        // Initialize ArrayList
+        weekDays = new ArrayList<>();
+        for (int i = 0; i < dayNames.length; i++) {
+            WeekDay weekDay = new WeekDay(dayPics[i], dayNames[i]);
+            weekDays.add(weekDay);
+        }
+
+        // Design horizontal layout
+        LinearLayoutManager layoutManager = new LinearLayoutManager(
+                MainActivity.this, LinearLayoutManager.HORIZONTAL, false);
+        recyclerView.setLayoutManager(layoutManager);
+        recyclerView.setItemAnimator(new DefaultItemAnimator());
+
+        weekDayAdapter = new WeekDayAdapter(MainActivity.this, weekDays);
+        recyclerView.setAdapter(weekDayAdapter);
+
+        listView = (ListView) findViewById(R.id.listView);
+        noHabitsWarningImage = findViewById(R.id.noHabitsWarningImage);
+        noHabitsTextView = findViewById(R.id.noHabitsTextView);
+
         habitManager = new HabitManager(MainActivity.this);
         habitList = habitManager.getAllHabits();
 
