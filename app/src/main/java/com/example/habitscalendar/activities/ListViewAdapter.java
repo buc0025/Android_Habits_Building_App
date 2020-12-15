@@ -40,16 +40,11 @@ public class ListViewAdapter extends ArrayAdapter<Habit> {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         String habitName = habitList.get(position).getHabit();
-
-        LayoutInflater inflater = LayoutInflater.from(context);
-        convertView = inflater.inflate(resource, parent, false);
-
-        TextView habitTextView = (TextView) convertView.findViewById(R.id.habitName);
-
-        habitTextView.setText(habitName);
-
         // inflating recyclerView
         View view = layoutInflater.inflate(R.layout.habit_row, null, false);
+        TextView habitTextView = (TextView) view.findViewById(R.id.habitName);
+        habitTextView.setText(habitName);
+        
         RecyclerView recyclerView = view.findViewById(R.id.recyclerView);
         recyclerView.setAdapter(weekDayAdapter);
 

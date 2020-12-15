@@ -17,8 +17,8 @@ import com.example.habitscalendar.R;
 import java.util.ArrayList;
 
 public class WeekDayAdapter extends RecyclerView.Adapter<WeekDayAdapter.ViewHolder> {
-    private Integer[] dayPics = {R.drawable.ic_day, R.drawable.ic_day, R.drawable.ic_day, R.drawable.ic_day
-            , R.drawable.ic_day, R.drawable.ic_day, R.drawable.ic_day};
+    private Integer[] dayPics = {R.drawable.sunday, R.drawable.monday, R.drawable.tuesday, R.drawable.wednesday
+            , R.drawable.thursday, R.drawable.friday, R.drawable.saturday};
 
     private Context context;
 
@@ -35,7 +35,7 @@ public class WeekDayAdapter extends RecyclerView.Adapter<WeekDayAdapter.ViewHold
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        holder.imageView.setImageResource(dayPics[position]);
+        holder.weekDayImageView.setImageResource(dayPics[position]);
     }
 
     @Override
@@ -44,19 +44,45 @@ public class WeekDayAdapter extends RecyclerView.Adapter<WeekDayAdapter.ViewHold
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        ImageView imageView;
+        ImageView weekDayImageView;
         CardView cardView;
+
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            imageView = itemView.findViewById(R.id.imageView);
+            weekDayImageView = itemView.findViewById(R.id.weekDayImageView);
             cardView = itemView.findViewById(R.id.cardView);
-            imageView.setOnClickListener(this);
+            weekDayImageView.setOnClickListener(this);
         }
 
         @Override
         public void onClick(View v) {
-            if (v.getId() == imageView.getId()) {
-                Toast.makeText(v.getContext(), "Day pressed", Toast.LENGTH_SHORT).show();
+            String day = "";
+            switch (getAdapterPosition()) {
+                case 0:
+                    day = "Sunday";
+                    break;
+                case 1:
+                    day = "Monday";
+                    break;
+                case 2:
+                    day = "Tuesday";
+                    break;
+                case 3:
+                    day = "Wednesday";
+                    break;
+                case 4:
+                    day = "Thursday";
+                    break;
+                case 5:
+                    day = "Friday";
+                    break;
+                case 6:
+                    day = "Saturday";
+                    break;
+            }
+
+            if (v.getId() == weekDayImageView.getId()) {
+                Toast.makeText(v.getContext(), "day pressed = " + day, Toast.LENGTH_SHORT).show();
             }
         }
     }
