@@ -13,14 +13,20 @@ import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.habitscalendar.R;
+import com.example.habitscalendar.managers.HabitManager;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 
 public class WeekDayAdapter extends RecyclerView.Adapter<WeekDayAdapter.ViewHolder> {
     private Integer[] dayPics = {R.drawable.sunday, R.drawable.monday, R.drawable.tuesday, R.drawable.wednesday
             , R.drawable.thursday, R.drawable.friday, R.drawable.saturday};
 
     private Context context;
+    private HabitManager habitManager;
 
     public WeekDayAdapter (Context context) {
         this.context = context;
@@ -56,32 +62,65 @@ public class WeekDayAdapter extends RecyclerView.Adapter<WeekDayAdapter.ViewHold
 
         @Override
         public void onClick(View v) {
+            habitManager = new HabitManager(context);
+            Calendar calendar = Calendar.getInstance();
+            calendar.add(Calendar.DAY_OF_YEAR, -1);
+            Date sunday = calendar.getTime();
+
+            calendar.add(Calendar.DAY_OF_YEAR, 1);
+            Date monday = calendar.getTime();
+
+            calendar.add(Calendar.DAY_OF_YEAR, 1);
+            Date tuesday = calendar.getTime();
+
+            calendar.add(Calendar.DAY_OF_YEAR, 1);
+            Date wednesday = calendar.getTime();
+
+            calendar.add(Calendar.DAY_OF_YEAR, 1);
+            Date thursday = calendar.getTime();
+
+            calendar.add(Calendar.DAY_OF_YEAR, 1);
+            Date friday = calendar.getTime();
+
+            calendar.add(Calendar.DAY_OF_YEAR, 1);
+            Date saturday = calendar.getTime();
+
+            DateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
+
+            String sundayAsString = dateFormat.format(sunday);
+            String mondayAsString = dateFormat.format(monday);
+            String tuesdayAsString = dateFormat.format(tuesday);
+            String wednesdayAsString = dateFormat.format(wednesday);
+            String thursdayAsString = dateFormat.format(thursday);
+            String fridayAsString = dateFormat.format(friday);
+            String saturdayAsString = dateFormat.format(saturday);
             String day = "";
             switch (getAdapterPosition()) {
                 case 0:
-                    day = "Sunday";
+                    day = sundayAsString;
                     break;
                 case 1:
-                    day = "Monday";
+                    day = mondayAsString;
                     break;
                 case 2:
-                    day = "Tuesday";
+                    day = tuesdayAsString;
                     break;
                 case 3:
-                    day = "Wednesday";
+                    day = wednesdayAsString;
                     break;
                 case 4:
-                    day = "Thursday";
+                    day = thursdayAsString;
                     break;
                 case 5:
-                    day = "Friday";
+                    day = fridayAsString;
                     break;
                 case 6:
-                    day = "Saturday";
+                    day = saturdayAsString;
                     break;
             }
 
             if (v.getId() == weekDayImageView.getId()) {
+                habitManager.addDate(???, day);
                 Toast.makeText(v.getContext(), "day pressed = " + day, Toast.LENGTH_SHORT).show();
             }
         }

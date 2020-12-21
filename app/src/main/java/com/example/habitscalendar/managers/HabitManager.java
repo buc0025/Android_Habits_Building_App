@@ -26,6 +26,8 @@ public class HabitManager extends SQLiteOpenHelper {
     private static final String COLUMN_HABIT = "habit";
     private static final String COLUMN_REASON = "reason";
     private static final String COLUMN_START = "start";
+    private static final String DATE_TABLE_NAME = "date_table";
+    private static final String COLUMN_DATE = "date";
 
     public HabitManager(@Nullable Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -41,6 +43,26 @@ public class HabitManager extends SQLiteOpenHelper {
         contentValues.put(COLUMN_START, String.valueOf(habit.getStartDate()));
 
         long result = database.insert(HABIT_TABLE_NAME, null, contentValues);
+
+        if (result == -1) {
+            Toast.makeText(context, "Failed", Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(context, "Added successfully!", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    /**
+     * 12/21/2020
+     * add date to corresponding habit
+     * @return
+     */
+    public void addDate(String habit, String date) {
+        SQLiteDatabase database = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(COLUMN_HABIT, habit);
+        contentValues.put(COLUMN_DATE, date);
+
+        long result = database.insert(DATE_TABLE_NAME, null, contentValues);
 
         if (result == -1) {
             Toast.makeText(context, "Failed", Toast.LENGTH_SHORT).show();
@@ -119,11 +141,20 @@ public class HabitManager extends SQLiteOpenHelper {
                         COLUMN_REASON + " VARCHAR, " +
                         COLUMN_START + " VARCHAR);";
         sqLiteDatabase.execSQL(query);
+
+        String queryDates =
+                "CREATE TABLE " + DATE_TABLE_NAME + " (" +
+                        COLUMN_HABIT + " VARCHAR, " +
+                        COLUMN_DATE + " VARCHAR);";
+        sqLiteDatabase.execSQL(queryDates);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) {
         sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + HABIT_TABLE_NAME);
+        onCreate(sqLiteDatabase);
+
+        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + DATE_TABLE_NAME);
         onCreate(sqLiteDatabase);
     }
 }
