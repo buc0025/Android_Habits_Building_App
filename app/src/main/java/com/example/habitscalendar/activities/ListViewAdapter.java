@@ -45,37 +45,46 @@ public class ListViewAdapter extends ArrayAdapter<Habit> {
     public View getView(int position, View convertView, ViewGroup parent) {
         String habitName = habitList.get(position).getHabit();
 
+        // Get calendar set to current date and time
         Calendar calendar = Calendar.getInstance();
-        calendar.add(Calendar.DAY_OF_YEAR, -3);
-        Date sunday = calendar.getTime();
 
-        calendar.add(Calendar.DAY_OF_YEAR, 1);
-        Date monday = calendar.getTime();
-
-        calendar.add(Calendar.DAY_OF_YEAR, 1);
-        Date tuesday = calendar.getTime();
-
-        calendar.add(Calendar.DAY_OF_YEAR, 1);
-        Date wednesday = calendar.getTime();
-
-        calendar.add(Calendar.DAY_OF_YEAR, 1);
-        Date thursday = calendar.getTime();
-
-        calendar.add(Calendar.DAY_OF_YEAR, 1);
-        Date friday = calendar.getTime();
-
-        calendar.add(Calendar.DAY_OF_YEAR, 1);
-        Date saturday = calendar.getTime();
+        // Set calendar to Sunday of the current week
+        calendar.set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY);
 
         DateFormat dateFormat = new SimpleDateFormat("MM/dd");
+        String sundayAsString = null;
+        String mondayAsString = null;
+        String tuesdayAsString = null;
+        String wednesdayAsString = null;
+        String thursdayAsString = null;
+        String fridayAsString = null;
+        String saturdayAsString = null;
 
-        String sundayAsString = dateFormat.format(sunday);
-        String mondayAsString = dateFormat.format(monday);
-        String tuesdayAsString = dateFormat.format(tuesday);
-        String wednesdayAsString = dateFormat.format(wednesday);
-        String thursdayAsString = dateFormat.format(thursday);
-        String fridayAsString = dateFormat.format(friday);
-        String saturdayAsString = dateFormat.format(saturday);
+        // Set dates of the current week starting on Sunday
+        for (int i = 0; i < 7; i++) {
+            if (i == 0) {
+                sundayAsString = dateFormat.format(calendar.getTime());
+            }
+            if (i == 1) {
+                mondayAsString = dateFormat.format(calendar.getTime());
+            }
+            if (i == 2) {
+                tuesdayAsString = dateFormat.format(calendar.getTime());
+            }
+            if (i == 3) {
+                wednesdayAsString = dateFormat.format(calendar.getTime());
+            }
+            if (i == 4) {
+                thursdayAsString = dateFormat.format(calendar.getTime());
+            }
+            if (i == 5) {
+                fridayAsString = dateFormat.format(calendar.getTime());
+            }
+            if (i == 6) {
+                saturdayAsString = dateFormat.format(calendar.getTime());
+            }
+            calendar.add(Calendar.DATE, 1);
+        }
 
         // inflating recyclerView
         View view = layoutInflater.inflate(R.layout.habit_row, null, false);

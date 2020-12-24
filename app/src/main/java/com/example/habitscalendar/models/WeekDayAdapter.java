@@ -20,6 +20,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 public class WeekDayAdapter extends RecyclerView.Adapter<WeekDayAdapter.ViewHolder> {
     private Integer[] dayPics = {R.drawable.sunday, R.drawable.monday, R.drawable.tuesday, R.drawable.wednesday
@@ -27,6 +28,7 @@ public class WeekDayAdapter extends RecyclerView.Adapter<WeekDayAdapter.ViewHold
 
     private Context context;
     private HabitManager habitManager;
+    public List<Habit> habitList;
 
     public WeekDayAdapter (Context context) {
         this.context = context;
@@ -63,37 +65,47 @@ public class WeekDayAdapter extends RecyclerView.Adapter<WeekDayAdapter.ViewHold
         @Override
         public void onClick(View v) {
             habitManager = new HabitManager(context);
+
             Calendar calendar = Calendar.getInstance();
-            calendar.add(Calendar.DAY_OF_YEAR, -1);
-            Date sunday = calendar.getTime();
-
-            calendar.add(Calendar.DAY_OF_YEAR, 1);
-            Date monday = calendar.getTime();
-
-            calendar.add(Calendar.DAY_OF_YEAR, 1);
-            Date tuesday = calendar.getTime();
-
-            calendar.add(Calendar.DAY_OF_YEAR, 1);
-            Date wednesday = calendar.getTime();
-
-            calendar.add(Calendar.DAY_OF_YEAR, 1);
-            Date thursday = calendar.getTime();
-
-            calendar.add(Calendar.DAY_OF_YEAR, 1);
-            Date friday = calendar.getTime();
-
-            calendar.add(Calendar.DAY_OF_YEAR, 1);
-            Date saturday = calendar.getTime();
+            // Dates are added and converted into string and Toast message is displayed as "MM/dd/YYYY"
+            // when days of the week in recyclerView is clicked
+            calendar.set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY);
 
             DateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
+            String sundayAsString = null;
+            String mondayAsString = null;
+            String tuesdayAsString = null;
+            String wednesdayAsString = null;
+            String thursdayAsString = null;
+            String fridayAsString = null;
+            String saturdayAsString = null;
 
-            String sundayAsString = dateFormat.format(sunday);
-            String mondayAsString = dateFormat.format(monday);
-            String tuesdayAsString = dateFormat.format(tuesday);
-            String wednesdayAsString = dateFormat.format(wednesday);
-            String thursdayAsString = dateFormat.format(thursday);
-            String fridayAsString = dateFormat.format(friday);
-            String saturdayAsString = dateFormat.format(saturday);
+            // Set dates of the current week starting on Sunday
+            for (int i = 0; i < 7; i++) {
+                if (i == 0) {
+                    sundayAsString = dateFormat.format(calendar.getTime());
+                }
+                if (i == 1) {
+                    mondayAsString = dateFormat.format(calendar.getTime());
+                }
+                if (i == 2) {
+                    tuesdayAsString = dateFormat.format(calendar.getTime());
+                }
+                if (i == 3) {
+                    wednesdayAsString = dateFormat.format(calendar.getTime());
+                }
+                if (i == 4) {
+                    thursdayAsString = dateFormat.format(calendar.getTime());
+                }
+                if (i == 5) {
+                    fridayAsString = dateFormat.format(calendar.getTime());
+                }
+                if (i == 6) {
+                    saturdayAsString = dateFormat.format(calendar.getTime());
+                }
+                calendar.add(Calendar.DATE, 1);
+            }
+
             String day = "";
             switch (getAdapterPosition()) {
                 case 0:
@@ -119,8 +131,14 @@ public class WeekDayAdapter extends RecyclerView.Adapter<WeekDayAdapter.ViewHold
                     break;
             }
 
+            habitList = habitManager.getAllHabits();
+
+            // Need to pass in position of ListView
+            String habitID = habitList.get(???).getHabitId();
+
             if (v.getId() == weekDayImageView.getId()) {
-                habitManager.addDate(???, day);
+                // habitID position is still undefined
+                habitManager.addDate(habitID, day);
                 Toast.makeText(v.getContext(), "day pressed = " + day, Toast.LENGTH_SHORT).show();
             }
         }

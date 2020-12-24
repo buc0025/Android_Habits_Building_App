@@ -56,13 +56,13 @@ public class HabitManager extends SQLiteOpenHelper {
      * add date to corresponding habit
      * @return
      */
-    public void addDate(String habit, String date) {
+    public void addDate(String habitId, String date) {
         SQLiteDatabase database = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
-        contentValues.put(COLUMN_HABIT, habit);
+        contentValues.put(COLUMN_ID, habitId);
         contentValues.put(COLUMN_DATE, date);
 
-        long result = database.insert(DATE_TABLE_NAME, null, contentValues);
+        long result = database.insertOrThrow(DATE_TABLE_NAME, null, contentValues);
 
         if (result == -1) {
             Toast.makeText(context, "Failed", Toast.LENGTH_SHORT).show();
@@ -144,18 +144,14 @@ public class HabitManager extends SQLiteOpenHelper {
 
         String queryDates =
                 "CREATE TABLE " + DATE_TABLE_NAME + " (" +
-                        COLUMN_HABIT + " VARCHAR, " +
+                        COLUMN_ID + " VARCHAR, " +
                         COLUMN_DATE + " VARCHAR);";
         sqLiteDatabase.execSQL(queryDates);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) {
-        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + HABIT_TABLE_NAME);
-        onCreate(sqLiteDatabase);
 
-        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + DATE_TABLE_NAME);
-        onCreate(sqLiteDatabase);
     }
 }
 /*
