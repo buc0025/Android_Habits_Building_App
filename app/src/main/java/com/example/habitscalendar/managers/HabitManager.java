@@ -132,22 +132,22 @@ public class HabitManager extends SQLiteOpenHelper {
         }
     }
 
-    @Override
-    public void onCreate(SQLiteDatabase sqLiteDatabase) {
-        String query =
-                "CREATE TABLE " + HABIT_TABLE_NAME + " (" +
-                        COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                        COLUMN_HABIT + " VARCHAR, " +
-                        COLUMN_REASON + " VARCHAR, " +
-                        COLUMN_START + " VARCHAR);";
-        sqLiteDatabase.execSQL(query);
-
-        String queryDates =
-                "CREATE TABLE " + DATE_TABLE_NAME + " (" +
-                        COLUMN_ID + " VARCHAR, " +
-                        COLUMN_DATE + " VARCHAR);";
-        sqLiteDatabase.execSQL(queryDates);
-    }
+//    @Override
+//    public void onCreate(SQLiteDatabase sqLiteDatabase) {
+//        String query =
+//                "CREATE TABLE " + HABIT_TABLE_NAME + " (" +
+//                        COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+//                        COLUMN_HABIT + " VARCHAR, " +
+//                        COLUMN_REASON + " VARCHAR, " +
+//                        COLUMN_START + " VARCHAR);";
+//        sqLiteDatabase.execSQL(query);
+//
+//        String queryDates =
+//                "CREATE TABLE " + DATE_TABLE_NAME + " (" +
+//                        COLUMN_ID + " VARCHAR, " +
+//                        COLUMN_DATE + " VARCHAR);";
+//        sqLiteDatabase.execSQL(queryDates);
+//    }
 
     @Override
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) {
