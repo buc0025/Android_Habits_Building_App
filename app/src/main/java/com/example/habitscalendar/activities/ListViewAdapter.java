@@ -37,12 +37,12 @@ public class ListViewAdapter extends ArrayAdapter<Habit> {
         habitList = objects;
 
         layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        weekDayAdapter = new WeekDayAdapter(context);
     }
 
     @NonNull
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
+        weekDayAdapter = new WeekDayAdapter(context, position);
         String habitName = habitList.get(position).getHabit();
 
         // Get calendar set to current date and time
@@ -108,6 +108,16 @@ public class ListViewAdapter extends ArrayAdapter<Habit> {
 
         RecyclerView recyclerView = view.findViewById(R.id.recyclerView);
         recyclerView.setAdapter(weekDayAdapter);
+
+        if (position == 0) {
+            recyclerView.setBackgroundColor(0xFFf542f5);
+        }
+        if (position == 1) {
+            recyclerView.setBackgroundColor(0xFF180cf2);
+        }
+        if (position == 2) {
+            recyclerView.setBackgroundColor(0xFFf2230c);
+        }
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false);
         recyclerView.setLayoutManager(linearLayoutManager);

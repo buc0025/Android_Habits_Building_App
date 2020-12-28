@@ -29,9 +29,11 @@ public class WeekDayAdapter extends RecyclerView.Adapter<WeekDayAdapter.ViewHold
     private Context context;
     private HabitManager habitManager;
     public List<Habit> habitList;
+    private int listPosition;
 
-    public WeekDayAdapter (Context context) {
+    public WeekDayAdapter (Context context, int listPosition) {
         this.context = context;
+        this.listPosition = listPosition;
     }
 
     @NonNull
@@ -134,10 +136,9 @@ public class WeekDayAdapter extends RecyclerView.Adapter<WeekDayAdapter.ViewHold
             habitList = habitManager.getAllHabits();
 
             // Need to pass in position of ListView
-            String habitID = habitList.get(???).getHabitId();
+            String habitID = habitList.get(listPosition).getHabitId();
 
             if (v.getId() == weekDayImageView.getId()) {
-                // habitID position is still undefined
                 habitManager.addDate(habitID, day);
                 Toast.makeText(v.getContext(), "day pressed = " + day, Toast.LENGTH_SHORT).show();
             }

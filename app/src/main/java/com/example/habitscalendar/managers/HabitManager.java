@@ -11,6 +11,8 @@ import androidx.annotation.Nullable;
 
 import com.example.habitscalendar.models.Habit;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -71,7 +73,7 @@ public class HabitManager extends SQLiteOpenHelper {
         }
     }
 
-    public Cursor readAllData(){
+    public Cursor readAllDataFromHabitTable(){
         String query = "SELECT * FROM " + HABIT_TABLE_NAME;
         SQLiteDatabase db = this.getReadableDatabase();
 
@@ -83,7 +85,7 @@ public class HabitManager extends SQLiteOpenHelper {
     }
 
     public List<Habit> getAllHabits() {
-        Cursor cursor = readAllData();
+        Cursor cursor = readAllDataFromHabitTable();
 
         List<Habit> listOfAllHabits = new ArrayList<>(cursor.getCount());
 
@@ -96,6 +98,53 @@ public class HabitManager extends SQLiteOpenHelper {
         return listOfAllHabits;
     }
 
+    /**
+     * 12/28/2020
+     * Cursor goes though Date table when called in getHabitCompletedDates()
+     * @param id
+     * @return
+     */
+    Cursor readAllDates(int id) {
+        String query = "SELECT * FROM " + DATE_TABLE_NAME + " WHERE id LIKE " + id;
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        Cursor cursor = null;
+        if (db != null) {
+            cursor = db.rawQuery(query, null);
+        }
+        return cursor;
+    }
+
+    /**
+     * Cursor only goes through dates(String) in column 1 of Date table with given id
+     * The date in string form is converted into a date and saved as a long value which
+     * gets added to List<Long> to be used in CalendarActivity. The elements in the list
+     * will be saved as Events in CalendarActivity and fill the specified dates in RED
+     * @param id
+     * @return
+     */
+    public List<Long> getHabitCompletedDates(String id) {
+        // Method pulls data to populate monthly view
+        Cursor cursor = readAllDates(Integer.valueOf(id));
+
+        List<Long> listOfCompletedDates = new ArrayList<>();
+
+        while (cursor.moveToNext()) {
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM/dd/yyyy");
+            String columnDate = cursor.getString(1);
+            long epoch = 0;
+            try {
+                Date date = simpleDateFormat.parse(columnDate);
+                epoch = date.getTime();
+                listOfCompletedDates.add(epoch);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return listOfCompletedDates;
+    }
+
     public boolean isHabitCompleted(Habit habit) {
         Date today;
         return isHabitCompleted(habit, today);
@@ -103,13 +152,6 @@ public class HabitManager extends SQLiteOpenHelper {
 
     public boolean isHabitCompleted(Habit habit, Date date) {
 
-    }
-
-    public List<Date> getHabitCompletedDates(Habit habit) {
-        // Method pulls data to populate monthly view
-        List<Date> listOfCompletedDates = new ArrayList<>();
-
-        return listOfCompletedDates;
     }
 
     public int getCurrentStreak(Habit habit) {
@@ -132,22 +174,22 @@ public class HabitManager extends SQLiteOpenHelper {
         }
     }
 
-//    @Override
-//    public void onCreate(SQLiteDatabase sqLiteDatabase) {
-//        String query =
-//                "CREATE TABLE " + HABIT_TABLE_NAME + " (" +
-//                        COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
-//                        COLUMN_HABIT + " VARCHAR, " +
-//                        COLUMN_REASON + " VARCHAR, " +
-//                        COLUMN_START + " VARCHAR);";
-//        sqLiteDatabase.execSQL(query);
-//
-//        String queryDates =
-//                "CREATE TABLE " + DATE_TABLE_NAME + " (" +
-//                        COLUMN_ID + " VARCHAR, " +
-//                        COLUMN_DATE + " VARCHAR);";
-//        sqLiteDatabase.execSQL(queryDates);
-//    }
+    @Override
+    public void onCreate(SQLiteDatabase sqLiteDatabase) {
+        String query =
+                "CREATE TABLE " + HABIT_TABLE_NAME + " (" +
+                        COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                        COLUMN_HABIT + " VARCHAR, " +
+                        COLUMN_REASON + " VARCHAR, " +
+                        COLUMN_START + " VARCHAR);";
+        sqLiteDatabase.execSQL(query);
+
+        String queryDates =
+                "CREATE TABLE " + DATE_TABLE_NAME + " (" +
+                        COLUMN_ID + " VARCHAR, " +
+                        COLUMN_DATE + " VARCHAR);";
+        sqLiteDatabase.execSQL(queryDates);
+    }
 
     @Override
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) {

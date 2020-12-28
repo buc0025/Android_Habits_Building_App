@@ -71,6 +71,7 @@ public class MainActivity extends AppCompatActivity {
                 intent.putExtra("HabitName", habitList.get(position).getHabit());
                 intent.putExtra("HabitReason", habitList.get(position).getReason());
                 intent.putExtra("HabitStartDate", habitList.get(position).getStartDate());
+                intent.putExtra("HabitId", habitList.get(position).getHabitId());
                 startActivity(intent);
             }
         });
