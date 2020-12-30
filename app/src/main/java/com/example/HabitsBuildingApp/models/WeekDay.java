@@ -1,4 +1,4 @@
-package com.example.habitscalendar.models;
+package com.example.HabitsBuildingApp.models;
 
 public class WeekDay {
     Integer dayPics;

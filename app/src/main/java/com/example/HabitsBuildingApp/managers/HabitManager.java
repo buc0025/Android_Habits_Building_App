@@ -1,4 +1,4 @@
-package com.example.habitscalendar.managers;
+package com.example.HabitsBuildingApp.managers;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -9,7 +9,7 @@ import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 
-import com.example.habitscalendar.models.Habit;
+import com.example.HabitsBuildingApp.models.Habit;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;

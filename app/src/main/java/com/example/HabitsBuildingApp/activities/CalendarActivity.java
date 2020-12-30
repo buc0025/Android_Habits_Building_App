@@ -1,4 +1,4 @@
-package com.example.habitscalendar.activities;
+package com.example.HabitsBuildingApp.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -7,8 +7,8 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.widget.TextView;
 
-import com.example.habitscalendar.R;
-import com.example.habitscalendar.managers.HabitManager;
+import com.example.HabitsBuildingApp.R;
+import com.example.HabitsBuildingApp.managers.HabitManager;
 import com.github.sundeepk.compactcalendarview.CompactCalendarView;
 import com.github.sundeepk.compactcalendarview.domain.Event;
 
@@ -19,10 +19,10 @@ import java.util.List;
 import java.util.Locale;
 
 import static com.github.sundeepk.compactcalendarview.CompactCalendarView.FILL_LARGE_INDICATOR;
+import static com.github.sundeepk.compactcalendarview.CompactCalendarView.NO_FILL_LARGE_INDICATOR;
 
 public class CalendarActivity extends AppCompatActivity {
 
-    private TextView calendarHabit;
     private TextView calendarReason;
     private TextView calendarStartDate;
     CompactCalendarView compactCalendarView;
@@ -36,7 +36,6 @@ public class CalendarActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_calendar);
 
-        calendarHabit = (TextView) findViewById(R.id.calendarHabit);
         calendarReason = (TextView) findViewById(R.id.calendarReason);
         calendarStartDate = (TextView) findViewById(R.id.calendarStartDate);
 
@@ -46,10 +45,13 @@ public class CalendarActivity extends AppCompatActivity {
         final String habitStartDate = intent.getExtras().getString("HabitStartDate");
         final String habitId = intent.getExtras().getString("HabitId");
 
+        // Title for action bar and back button
+        getSupportActionBar().setTitle(habitName);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
         habitManager = new HabitManager(CalendarActivity.this);
         epochTime = habitManager.getHabitCompletedDates(habitId);
 
-        calendarHabit.setText(habitName);
         calendarReason.setText(habitReason);
         calendarStartDate.setText(habitStartDate);
 
@@ -68,15 +70,27 @@ public class CalendarActivity extends AppCompatActivity {
         Event event = new Event(Color.RED, 1607026803000L, "Some extra data that I want to store.");
         compactCalendarView.addEvent(event);
 
+        // Setting calendar month as current month until onMonthScroll() is called
+        calendarMonth.setText(dateFormatMonth.format(compactCalendarView.getFirstDayOfCurrentMonth()));
+
+        // Current date has circle around date
+        compactCalendarView.setCurrentDayIndicatorStyle(NO_FILL_LARGE_INDICATOR);
+
         compactCalendarView.setListener(new CompactCalendarView.CompactCalendarViewListener() {
             @Override
             public void onDayClick(Date dateClicked) {
-                calendarMonth.setText(dateFormatMonth.format(dateClicked));
+                // Formatting dateClicked and adds date to database when clicked
+                SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM/dd/yyyy");
+                String selectedDate = simpleDateFormat.format(dateClicked);
+                habitManager.addDate(habitId, selectedDate);
             }
 
             @Override
             public void onMonthScroll(Date firstDayOfNewMonth) {
                 calendarMonth.setText(dateFormatMonth.format(firstDayOfNewMonth));
+
+                // First day of each month is no longer highlighted
+                compactCalendarView.shouldSelectFirstDayOfMonthOnScroll(false);
             }
         });
     }

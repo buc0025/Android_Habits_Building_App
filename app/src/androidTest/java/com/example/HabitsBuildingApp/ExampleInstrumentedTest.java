@@ -1,4 +1,4 @@
-package com.example.habitscalendar;
+package com.example.HabitsBuildingApp;
 
 import android.content.Context;
 

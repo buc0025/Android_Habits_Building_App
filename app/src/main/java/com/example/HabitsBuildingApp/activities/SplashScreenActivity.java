@@ -1,4 +1,4 @@
-package com.example.habitscalendar.activities;
+package com.example.HabitsBuildingApp.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -6,7 +6,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 
-import com.example.habitscalendar.R;
+import com.example.HabitsBuildingApp.R;
 
 import gr.net.maroulis.library.EasySplashScreen;
 

@@ -1,7 +1,4 @@
-package com.example.habitscalendar.models;
-
-import java.time.LocalDate;
-import java.util.Date;
+package com.example.HabitsBuildingApp.models;
 
 public class Habit {
 

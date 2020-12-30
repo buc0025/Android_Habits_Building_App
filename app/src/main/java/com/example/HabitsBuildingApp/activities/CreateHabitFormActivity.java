@@ -1,4 +1,4 @@
-package com.example.habitscalendar.activities;
+package com.example.HabitsBuildingApp.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -7,11 +7,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
-import com.example.habitscalendar.R;
-import com.example.habitscalendar.managers.HabitManager;
-import com.example.habitscalendar.models.Habit;
-
-import java.util.Date;
+import com.example.HabitsBuildingApp.R;
+import com.example.HabitsBuildingApp.managers.HabitManager;
+import com.example.HabitsBuildingApp.models.Habit;
 
 public class CreateHabitFormActivity extends AppCompatActivity {
 
@@ -27,6 +25,10 @@ public class CreateHabitFormActivity extends AppCompatActivity {
         edtTextReason = findViewById(R.id.edtTextReason);
         edtTextStartDate = findViewById(R.id.edtTextStartDate);
         btnCreateHabit = findViewById(R.id.btnCreateHabit);
+
+        // Title for action bar and back button
+        getSupportActionBar().setTitle("Create Habit");
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         btnCreateHabit.setOnClickListener(new View.OnClickListener() {
             @Override

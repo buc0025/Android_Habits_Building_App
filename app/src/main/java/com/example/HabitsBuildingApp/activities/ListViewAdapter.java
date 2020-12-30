@@ -1,4 +1,4 @@
-package com.example.habitscalendar.activities;
+package com.example.HabitsBuildingApp.activities;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -8,18 +8,16 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.habitscalendar.R;
-import com.example.habitscalendar.models.Habit;
-import com.example.habitscalendar.models.WeekDayAdapter;
+import com.example.HabitsBuildingApp.R;
+import com.example.HabitsBuildingApp.models.Habit;
+import com.example.HabitsBuildingApp.models.WeekDayAdapter;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 public class ListViewAdapter extends ArrayAdapter<Habit> {

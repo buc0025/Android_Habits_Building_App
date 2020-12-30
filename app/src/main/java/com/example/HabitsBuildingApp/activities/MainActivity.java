@@ -1,34 +1,26 @@
-package com.example.habitscalendar.activities;
+package com.example.HabitsBuildingApp.activities;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.DefaultItemAnimator;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.database.Cursor;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.CalendarView;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.example.habitscalendar.R;
-import com.example.habitscalendar.managers.HabitManager;
-import com.example.habitscalendar.models.Habit;
-import com.example.habitscalendar.models.WeekDay;
-import com.example.habitscalendar.models.WeekDayAdapter;
+import com.example.HabitsBuildingApp.R;
+import com.example.HabitsBuildingApp.managers.HabitManager;
+import com.example.HabitsBuildingApp.models.Habit;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {

@@ -23,9 +23,9 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Streak:  "
+            android:text="Current streak:  "
             android:textColor="#000"
-            android:textSize="25dp"/>
+            android:textSize="15dp"/>
 
         <TextView
             android:id="@+id/streakTextView"
@@ -33,14 +33,14 @@
             android:layout_height="wrap_content"
             android:text="0"
             android:textColor="#000"
-            android:textSize="25dp"/>
+            android:textSize="15dp"/>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="  Days"
             android:textColor="#000"
-            android:textSize="25dp"/>
+            android:textSize="15dp"/>
 
     </LinearLayout>
 
