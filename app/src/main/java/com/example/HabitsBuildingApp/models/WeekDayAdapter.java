@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.HabitsBuildingApp.R;
 import com.example.HabitsBuildingApp.managers.HabitManager;
+import com.example.HabitsBuildingApp.managers.UtilityClass;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -65,68 +66,28 @@ public class WeekDayAdapter extends RecyclerView.Adapter<WeekDayAdapter.ViewHold
         public void onClick(View v) {
             habitManager = new HabitManager(context);
 
-            Calendar calendar = Calendar.getInstance();
-            // Dates are added and converted into string and Toast message is displayed as "MM/dd/YYYY"
-            // when days of the week in recyclerView is clicked
-            calendar.set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY);
-
-            DateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
-            String sundayAsString = null;
-            String mondayAsString = null;
-            String tuesdayAsString = null;
-            String wednesdayAsString = null;
-            String thursdayAsString = null;
-            String fridayAsString = null;
-            String saturdayAsString = null;
-
-            // Set dates of the current week starting on Sunday
-            for (int i = 0; i < 7; i++) {
-                if (i == 0) {
-                    sundayAsString = dateFormat.format(calendar.getTime());
-                }
-                if (i == 1) {
-                    mondayAsString = dateFormat.format(calendar.getTime());
-                }
-                if (i == 2) {
-                    tuesdayAsString = dateFormat.format(calendar.getTime());
-                }
-                if (i == 3) {
-                    wednesdayAsString = dateFormat.format(calendar.getTime());
-                }
-                if (i == 4) {
-                    thursdayAsString = dateFormat.format(calendar.getTime());
-                }
-                if (i == 5) {
-                    fridayAsString = dateFormat.format(calendar.getTime());
-                }
-                if (i == 6) {
-                    saturdayAsString = dateFormat.format(calendar.getTime());
-                }
-                calendar.add(Calendar.DATE, 1);
-            }
-
             String day = "";
             switch (getAdapterPosition()) {
                 case 0:
-                    day = sundayAsString;
+                    day = UtilityClass.weekDayAdapterDates(0);
                     break;
                 case 1:
-                    day = mondayAsString;
+                    day = UtilityClass.weekDayAdapterDates(1);
                     break;
                 case 2:
-                    day = tuesdayAsString;
+                    day = UtilityClass.weekDayAdapterDates(2);
                     break;
                 case 3:
-                    day = wednesdayAsString;
+                    day = UtilityClass.weekDayAdapterDates(3);
                     break;
                 case 4:
-                    day = thursdayAsString;
+                    day = UtilityClass.weekDayAdapterDates(4);
                     break;
                 case 5:
-                    day = fridayAsString;
+                    day = UtilityClass.weekDayAdapterDates(5);
                     break;
                 case 6:
-                    day = saturdayAsString;
+                    day = UtilityClass.weekDayAdapterDates(6);
                     break;
             }
 

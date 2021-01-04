@@ -69,7 +69,7 @@ public class HabitManager extends SQLiteOpenHelper {
         if (result == -1) {
             Toast.makeText(context, "Failed", Toast.LENGTH_SHORT).show();
         } else {
-            Toast.makeText(context, "Added successfully!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, date + " Added successfully!", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -166,7 +166,17 @@ public class HabitManager extends SQLiteOpenHelper {
 
     public void deleteHabit(Habit habit) {
         SQLiteDatabase db = this.getWritableDatabase();
-        long result = db.delete(HABIT_TABLE_NAME, "_id=?", new String[] {habit.getHabitId()});
+        long result = db.delete(HABIT_TABLE_NAME, "id=?", new String[] {habit.getHabitId()});
+        if (result == -1) {
+            Toast.makeText(context, "Delete failed", Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(context, "Successfully deleted", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    public void deleteDate(String habitId, String date) {
+        SQLiteDatabase database = this.getWritableDatabase();
+        long result = database.delete(DATE_TABLE_NAME, "id=? and date=?", new String[] {habitId, date});
         if (result == -1) {
             Toast.makeText(context, "Delete failed", Toast.LENGTH_SHORT).show();
         } else {

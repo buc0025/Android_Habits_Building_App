@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.HabitsBuildingApp.R;
+import com.example.HabitsBuildingApp.managers.UtilityClass;
 import com.example.HabitsBuildingApp.models.Habit;
 import com.example.HabitsBuildingApp.models.WeekDayAdapter;
 
@@ -43,66 +44,25 @@ public class ListViewAdapter extends ArrayAdapter<Habit> {
         weekDayAdapter = new WeekDayAdapter(context, position);
         String habitName = habitList.get(position).getHabit();
 
-        // Get calendar set to current date and time
-        Calendar calendar = Calendar.getInstance();
-
-        // Set calendar to Sunday of the current week
-        calendar.set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY);
-
-        DateFormat dateFormat = new SimpleDateFormat("MM/dd");
-        String sundayAsString = null;
-        String mondayAsString = null;
-        String tuesdayAsString = null;
-        String wednesdayAsString = null;
-        String thursdayAsString = null;
-        String fridayAsString = null;
-        String saturdayAsString = null;
-
-        // Set dates of the current week starting on Sunday
-        for (int i = 0; i < 7; i++) {
-            if (i == 0) {
-                sundayAsString = dateFormat.format(calendar.getTime());
-            }
-            if (i == 1) {
-                mondayAsString = dateFormat.format(calendar.getTime());
-            }
-            if (i == 2) {
-                tuesdayAsString = dateFormat.format(calendar.getTime());
-            }
-            if (i == 3) {
-                wednesdayAsString = dateFormat.format(calendar.getTime());
-            }
-            if (i == 4) {
-                thursdayAsString = dateFormat.format(calendar.getTime());
-            }
-            if (i == 5) {
-                fridayAsString = dateFormat.format(calendar.getTime());
-            }
-            if (i == 6) {
-                saturdayAsString = dateFormat.format(calendar.getTime());
-            }
-            calendar.add(Calendar.DATE, 1);
-        }
-
         // inflating recyclerView
         View view = layoutInflater.inflate(R.layout.habit_row, null, false);
         TextView habitTextView = (TextView) view.findViewById(R.id.habitName);
         habitTextView.setText(habitName);
 
         TextView sun = view.findViewById(R.id.sunday);
-        sun.setText(sundayAsString);
+        sun.setText(UtilityClass.listViewDates(0));
         TextView mon = view.findViewById(R.id.monday);
-        mon.setText(mondayAsString);
+        mon.setText(UtilityClass.listViewDates(1));
         TextView tues = view.findViewById(R.id.tuesday);
-        tues.setText(tuesdayAsString);
+        tues.setText(UtilityClass.listViewDates(2));
         TextView wed = view.findViewById(R.id.wednesday);
-        wed.setText(wednesdayAsString);
+        wed.setText(UtilityClass.listViewDates(3));
         TextView thur = view.findViewById(R.id.thursday);
-        thur.setText(thursdayAsString);
+        thur.setText(UtilityClass.listViewDates(4));
         TextView fri = view.findViewById(R.id.friday);
-        fri.setText(fridayAsString);
+        fri.setText(UtilityClass.listViewDates(5));
         TextView sat = view.findViewById(R.id.saturday);
-        sat.setText(saturdayAsString);
+        sat.setText(UtilityClass.listViewDates(6));
 
         RecyclerView recyclerView = view.findViewById(R.id.recyclerView);
         recyclerView.setAdapter(weekDayAdapter);
