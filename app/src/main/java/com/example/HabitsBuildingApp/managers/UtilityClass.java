@@ -1,8 +1,10 @@
 package com.example.HabitsBuildingApp.managers;
 
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 
 public class UtilityClass {
 
@@ -80,5 +82,18 @@ public class UtilityClass {
         }
 
         return dateFormat.format(calendar.getTime());
+    }
+
+    public static long convertToEpoch(Date dateClicked) {
+        final SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM/dd/yyyy");
+        final String selectedDate = simpleDateFormat.format(dateClicked);
+        long epoch = 0;
+        try {
+            Date date = simpleDateFormat.parse(selectedDate);
+            epoch = date.getTime();
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return epoch;
     }
 }

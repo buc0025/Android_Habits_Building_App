@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.example.HabitsBuildingApp.R;
 import com.example.HabitsBuildingApp.managers.HabitManager;
+import com.example.HabitsBuildingApp.managers.UtilityClass;
 import com.github.sundeepk.compactcalendarview.CompactCalendarView;
 import com.github.sundeepk.compactcalendarview.domain.Event;
 
@@ -65,13 +66,9 @@ public class CalendarActivity extends AppCompatActivity {
         compactCalendarView.setEventIndicatorStyle(FILL_LARGE_INDICATOR);
 
         for (int i = 0; i < epochTimes.size(); i++) {
-            Event completedDate = new Event(Color.GREEN, epochTimes.get(i), "Some extra data that I want to store.");
+            Event completedDate = new Event(Color.GREEN, epochTimes.get(i), habitName);
             compactCalendarView.addEvent(completedDate);
         }
-
-        // Add event1 on December 3, 2020
-        Event event = new Event(Color.GREEN, 1607026803000L, "Some extra data that I want to store.");
-        compactCalendarView.addEvent(event);
 
         // Setting calendar month as current month until onMonthScroll() is called
         calendarMonth.setText(dateFormatMonth.format(compactCalendarView.getFirstDayOfCurrentMonth()));
@@ -84,20 +81,14 @@ public class CalendarActivity extends AppCompatActivity {
 
         compactCalendarView.setListener(new CompactCalendarView.CompactCalendarViewListener() {
             @Override
-            public void onDayClick(Date dateClicked) {
+            public void onDayClick(final Date dateClicked) {
                 // Formatting dateClicked and converting dateClicked to epoch
                 final SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM/dd/yyyy");
                 final String selectedDate = simpleDateFormat.format(dateClicked);
-                long epoch = 0;
-                try {
-                    Date date = simpleDateFormat.parse(selectedDate);
-                    epoch = date.getTime();
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                }
 
                 // If date already exists in List<Long> epochTimes and clicked, alert dialog gives option to delete date
-                if (epochTimes.contains(epoch)) {
+                if (epochTimes.contains(UtilityClass.convertToEpoch(dateClicked))) {
+                    compactCalendarView.setCurrentSelectedDayBackgroundColor(Color.GREEN);
                     AlertDialog.Builder builder = new AlertDialog.Builder(CalendarActivity.this);
                     builder.setMessage("Are you sure you want to delete date?")
                             .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
@@ -105,23 +96,17 @@ public class CalendarActivity extends AppCompatActivity {
                                 public void onClick(DialogInterface dialog, int which) {
                                     habitManager.deleteDate(habitId, selectedDate);
 
-                                    long epoch = 0;
-                                    try {
-                                        Date date = simpleDateFormat.parse(selectedDate);
-                                        epoch = date.getTime();
-                                    } catch (ParseException e) {
-                                        e.printStackTrace();
-                                    }
-
-                                    int index = epochTimes.indexOf(epoch);
+                                    int index = epochTimes.indexOf(UtilityClass.convertToEpoch(dateClicked));
                                     epochTimes.remove(index);
-                                    compactCalendarView.removeEvents(epoch);
+                                    compactCalendarView.removeEvents(UtilityClass.convertToEpoch(dateClicked));
+                                    compactCalendarView.setCurrentSelectedDayBackgroundColor(Color.TRANSPARENT);
                                 }
                             })
                             .setNegativeButton("No", null);
                     AlertDialog alertDialog = builder.create();
                     alertDialog.show();
                 } else {
+                    compactCalendarView.setCurrentSelectedDayBackgroundColor(Color.TRANSPARENT);
                     // If date doesn't exist in List<Long> epochTimes and clicked, alert dialog gives option to add date
                     AlertDialog.Builder builder = new AlertDialog.Builder(CalendarActivity.this);
                     builder.setMessage("Are you sure you want to add date?")
@@ -129,17 +114,11 @@ public class CalendarActivity extends AppCompatActivity {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
                                     habitManager.addDate(habitId, selectedDate);
-                                    long epoch = 0;
-                                    try {
-                                        Date date = simpleDateFormat.parse(selectedDate);
-                                        epoch = date.getTime();
-                                    } catch (ParseException e) {
-                                        e.printStackTrace();
-                                    }
-                                    Event newDate = new Event(Color.GREEN, epoch, "Some extra data that I want to store.");
+
+                                    Event newDate = new Event(Color.GREEN, UtilityClass.convertToEpoch(dateClicked), habitName);
                                     compactCalendarView.addEvent(newDate);
-                                    epochTimes.add(epoch);
-//                                compactCalendarView.setCurrentSelectedDayBackgroundColor(Color.GREEN);
+                                    epochTimes.add(UtilityClass.convertToEpoch(dateClicked));
+                                    compactCalendarView.setCurrentSelectedDayBackgroundColor(Color.GREEN);
                                 }
                             })
                             .setNegativeButton("No", null);
