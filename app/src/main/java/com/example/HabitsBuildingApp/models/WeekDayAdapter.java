@@ -18,6 +18,7 @@ import com.example.HabitsBuildingApp.managers.UtilityClass;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 public class WeekDayAdapter extends RecyclerView.Adapter<WeekDayAdapter.ViewHolder> {
@@ -97,8 +98,14 @@ public class WeekDayAdapter extends RecyclerView.Adapter<WeekDayAdapter.ViewHold
             String habitID = habitList.get(listPosition).getHabitId();
 
             if (v.getId() == weekDayImageView.getId()) {
-                habitManager.addDate(habitID, day);
-                Toast.makeText(v.getContext(), "day pressed = " + day, Toast.LENGTH_SHORT).show();
+                Date today = Calendar.getInstance().getTime();
+                Date dateClicked = UtilityClass.stringToDate(day);
+
+                if (UtilityClass.convertToEpoch(dateClicked) > UtilityClass.convertToEpoch(today)) {
+                    Toast.makeText(v.getContext(), "Future dates can't be added", Toast.LENGTH_SHORT).show();
+                } else {
+                    habitManager.addDate(habitID, day);
+                }
             }
         }
     }

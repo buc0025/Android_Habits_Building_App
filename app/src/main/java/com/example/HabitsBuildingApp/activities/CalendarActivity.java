@@ -1,13 +1,13 @@
 package com.example.HabitsBuildingApp.activities;
 
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.widget.TextView;
+
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.HabitsBuildingApp.R;
 import com.example.HabitsBuildingApp.managers.HabitManager;
@@ -15,9 +15,9 @@ import com.example.HabitsBuildingApp.managers.UtilityClass;
 import com.github.sundeepk.compactcalendarview.CompactCalendarView;
 import com.github.sundeepk.compactcalendarview.domain.Event;
 
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -34,6 +34,7 @@ public class CalendarActivity extends AppCompatActivity {
     TextView calendarMonth;
     private HabitManager habitManager;
     private List<Long> epochTimes;
+    private TextView calendarStreak;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +43,7 @@ public class CalendarActivity extends AppCompatActivity {
 
         calendarReason = (TextView) findViewById(R.id.calendarReason);
         calendarStartDate = (TextView) findViewById(R.id.calendarStartDate);
+        calendarStreak = (TextView) findViewById(R.id.calendarStreak);
 
         Intent intent = getIntent();
         final String habitName = intent.getExtras().getString("HabitName");
@@ -76,9 +78,6 @@ public class CalendarActivity extends AppCompatActivity {
         // Current date has circle around date
         compactCalendarView.setCurrentDayIndicatorStyle(NO_FILL_LARGE_INDICATOR);
 
-        // Current date will have no color until another date is selected
-        compactCalendarView.setCurrentSelectedDayBackgroundColor(Color.TRANSPARENT);
-
         compactCalendarView.setListener(new CompactCalendarView.CompactCalendarViewListener() {
             @Override
             public void onDayClick(final Date dateClicked) {
@@ -86,10 +85,19 @@ public class CalendarActivity extends AppCompatActivity {
                 final SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM/dd/yyyy");
                 final String selectedDate = simpleDateFormat.format(dateClicked);
 
-                // If date already exists in List<Long> epochTimes and clicked, alert dialog gives option to delete date
-                if (epochTimes.contains(UtilityClass.convertToEpoch(dateClicked))) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(CalendarActivity.this);
+
+                Date today = Calendar.getInstance().getTime();
+
+                // If future date is clicked on, alert dialog pops up and user can't add date
+                if (UtilityClass.convertToEpoch(dateClicked) > UtilityClass.convertToEpoch(today)) {
+                    builder.setMessage("Future dates can't be added")
+                            .setPositiveButton("Ok", null);
+                    AlertDialog alertDialog = builder.create();
+                    alertDialog.show();
+                    // If date already exists in List<Long> epochTimes and clicked, alert dialog gives option to delete date
+                } else if (epochTimes.contains(UtilityClass.convertToEpoch(dateClicked))) {
                     compactCalendarView.setCurrentSelectedDayBackgroundColor(Color.GREEN);
-                    AlertDialog.Builder builder = new AlertDialog.Builder(CalendarActivity.this);
                     builder.setMessage("Are you sure you want to delete date?")
                             .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                                 @Override
@@ -100,6 +108,7 @@ public class CalendarActivity extends AppCompatActivity {
                                     epochTimes.remove(index);
                                     compactCalendarView.removeEvents(UtilityClass.convertToEpoch(dateClicked));
                                     compactCalendarView.setCurrentSelectedDayBackgroundColor(Color.TRANSPARENT);
+                                    calendarStreak.setText(UtilityClass.getStreak(epochTimes));
                                 }
                             })
                             .setNegativeButton("No", null);
@@ -108,7 +117,6 @@ public class CalendarActivity extends AppCompatActivity {
                 } else {
                     compactCalendarView.setCurrentSelectedDayBackgroundColor(Color.TRANSPARENT);
                     // If date doesn't exist in List<Long> epochTimes and clicked, alert dialog gives option to add date
-                    AlertDialog.Builder builder = new AlertDialog.Builder(CalendarActivity.this);
                     builder.setMessage("Are you sure you want to add date?")
                             .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                                 @Override
@@ -119,6 +127,7 @@ public class CalendarActivity extends AppCompatActivity {
                                     compactCalendarView.addEvent(newDate);
                                     epochTimes.add(UtilityClass.convertToEpoch(dateClicked));
                                     compactCalendarView.setCurrentSelectedDayBackgroundColor(Color.GREEN);
+                                    calendarStreak.setText(UtilityClass.getStreak(epochTimes));
                                 }
                             })
                             .setNegativeButton("No", null);
@@ -135,5 +144,7 @@ public class CalendarActivity extends AppCompatActivity {
                 compactCalendarView.shouldSelectFirstDayOfMonthOnScroll(false);
             }
         });
+        calendarStreak.setText(UtilityClass.getStreak(epochTimes));
     }
+
 }

@@ -4,7 +4,9 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Date;
+import java.util.List;
 
 public class UtilityClass {
 
@@ -88,6 +90,7 @@ public class UtilityClass {
         final SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM/dd/yyyy");
         final String selectedDate = simpleDateFormat.format(dateClicked);
         long epoch = 0;
+
         try {
             Date date = simpleDateFormat.parse(selectedDate);
             epoch = date.getTime();
@@ -95,5 +98,42 @@ public class UtilityClass {
             e.printStackTrace();
         }
         return epoch;
+    }
+
+    public static Date stringToDate(String date) {
+        final SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM/dd/yyyy");
+        Date today = Calendar.getInstance().getTime();
+
+        try {
+            today = simpleDateFormat.parse(date);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return today;
+    }
+
+    public static String getStreak(List<Long> dates) {
+        int streak = 0;
+        Date today = Calendar.getInstance().getTime();
+        long todayDate = UtilityClass.convertToEpoch(today);
+        Collections.sort(dates);
+        Collections.reverse(dates);
+
+        if (dates.get(0) == todayDate) {
+            streak = 1;
+        }
+
+        if (dates.get(0) != todayDate) {
+            return String.valueOf(streak);
+        }
+
+        for (int i = 1; i < dates.size(); i++) {
+            if (dates.get(i) + 86400000 == dates.get(i - 1)) {
+                streak++;
+            } else {
+                break;
+            }
+        }
+        return String.valueOf(streak);
     }
 }

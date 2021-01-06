@@ -38,13 +38,30 @@
 
     </LinearLayout>
 
-    <TextView
-        android:id="@+id/calendarStreak"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="20dp"
-        android:textColor="#000000"
-        android:text="Streak"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Streak: "
+            android:textSize="20dp"
+            android:textColor="#000"/>
+        <TextView
+            android:id="@+id/calendarStreak"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="20dp"
+            android:textColor="#000000"
+            android:text="Streak"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=" day(s)"
+            android:textSize="20dp"
+            android:textColor="#000"/>
+    </LinearLayout>
 
     <Space
         android:layout_width="match_parent"

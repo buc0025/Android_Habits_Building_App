@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.HabitsBuildingApp.R;
+import com.example.HabitsBuildingApp.managers.HabitManager;
 import com.example.HabitsBuildingApp.managers.UtilityClass;
 import com.example.HabitsBuildingApp.models.Habit;
 import com.example.HabitsBuildingApp.models.WeekDayAdapter;
@@ -28,6 +29,7 @@ public class ListViewAdapter extends ArrayAdapter<Habit> {
     private List<Habit> habitList;
     private WeekDayAdapter weekDayAdapter;
     private LayoutInflater layoutInflater;
+    private HabitManager habitManager;
 
     public ListViewAdapter(Context context, int resource, List<Habit> objects) {
         super(context, resource, objects);
@@ -43,9 +45,17 @@ public class ListViewAdapter extends ArrayAdapter<Habit> {
     public View getView(int position, View convertView, ViewGroup parent) {
         weekDayAdapter = new WeekDayAdapter(context, position);
         String habitName = habitList.get(position).getHabit();
+        String habitId = habitList.get(position).getHabitId();
+
+        habitManager = new HabitManager(context);
+        List<Long> epochTimes = habitManager.getHabitCompletedDates(habitId);
 
         // inflating recyclerView
         View view = layoutInflater.inflate(R.layout.habit_row, null, false);
+
+        TextView streak = (TextView) view.findViewById(R.id.streakTextView);
+        streak.setText(UtilityClass.getStreak(epochTimes));
+
         TextView habitTextView = (TextView) view.findViewById(R.id.habitName);
         habitTextView.setText(habitName);
 
@@ -66,16 +76,6 @@ public class ListViewAdapter extends ArrayAdapter<Habit> {
 
         RecyclerView recyclerView = view.findViewById(R.id.recyclerView);
         recyclerView.setAdapter(weekDayAdapter);
-
-        if (position == 0) {
-            recyclerView.setBackgroundColor(0xFFf542f5);
-        }
-        if (position == 1) {
-            recyclerView.setBackgroundColor(0xFF180cf2);
-        }
-        if (position == 2) {
-            recyclerView.setBackgroundColor(0xFFf2230c);
-        }
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false);
         recyclerView.setLayoutManager(linearLayoutManager);
