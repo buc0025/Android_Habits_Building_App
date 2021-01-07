@@ -10,6 +10,8 @@ import java.util.List;
 
 public class UtilityClass {
 
+    private static final int DAY_IN_EPOCH_TIME = 86400000;
+
     public static String listViewDates(int day) {
         // Get calendar set to current date and time
         Calendar calendar = Calendar.getInstance();
@@ -119,21 +121,31 @@ public class UtilityClass {
         Collections.sort(dates);
         Collections.reverse(dates);
 
-        if (dates.get(0) == todayDate) {
-            streak = 1;
+        if (dates.size() == 0) {
+            return String.valueOf(streak);
         }
 
-        if (dates.get(0) != todayDate) {
+        if (dates.get(0) == todayDate || dates.get(0) == todayDate - DAY_IN_EPOCH_TIME) {
+            streak = 1;
+        } else {
             return String.valueOf(streak);
         }
 
         for (int i = 1; i < dates.size(); i++) {
-            if (dates.get(i) + 86400000 == dates.get(i - 1)) {
+            if (dates.get(i) + DAY_IN_EPOCH_TIME == dates.get(i - 1)) {
                 streak++;
             } else {
                 break;
             }
         }
         return String.valueOf(streak);
+    }
+
+    public static String streakDayOrDays(int numberOfDays) {
+        if (numberOfDays == 1) {
+            return " day";
+        } else {
+            return " days";
+        }
     }
 }

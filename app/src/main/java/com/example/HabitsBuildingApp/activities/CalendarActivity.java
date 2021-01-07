@@ -35,6 +35,7 @@ public class CalendarActivity extends AppCompatActivity {
     private HabitManager habitManager;
     private List<Long> epochTimes;
     private TextView calendarStreak;
+    private TextView calendarStreakDays;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +45,7 @@ public class CalendarActivity extends AppCompatActivity {
         calendarReason = (TextView) findViewById(R.id.calendarReason);
         calendarStartDate = (TextView) findViewById(R.id.calendarStartDate);
         calendarStreak = (TextView) findViewById(R.id.calendarStreak);
+        calendarStreakDays = (TextView) findViewById(R.id.calendarStreakDays);
 
         Intent intent = getIntent();
         final String habitName = intent.getExtras().getString("HabitName");
@@ -75,8 +77,8 @@ public class CalendarActivity extends AppCompatActivity {
         // Setting calendar month as current month until onMonthScroll() is called
         calendarMonth.setText(dateFormatMonth.format(compactCalendarView.getFirstDayOfCurrentMonth()));
 
-        // Current date has circle around date
-        compactCalendarView.setCurrentDayIndicatorStyle(NO_FILL_LARGE_INDICATOR);
+        // Current date has no indicator once cursor is on another selected date
+        compactCalendarView.setCurrentDayIndicatorStyle(0);
 
         compactCalendarView.setListener(new CompactCalendarView.CompactCalendarViewListener() {
             @Override
@@ -95,6 +97,7 @@ public class CalendarActivity extends AppCompatActivity {
                             .setPositiveButton("Ok", null);
                     AlertDialog alertDialog = builder.create();
                     alertDialog.show();
+                    compactCalendarView.setCurrentSelectedDayBackgroundColor(Color.TRANSPARENT);
                     // If date already exists in List<Long> epochTimes and clicked, alert dialog gives option to delete date
                 } else if (epochTimes.contains(UtilityClass.convertToEpoch(dateClicked))) {
                     compactCalendarView.setCurrentSelectedDayBackgroundColor(Color.GREEN);
@@ -109,6 +112,7 @@ public class CalendarActivity extends AppCompatActivity {
                                     compactCalendarView.removeEvents(UtilityClass.convertToEpoch(dateClicked));
                                     compactCalendarView.setCurrentSelectedDayBackgroundColor(Color.TRANSPARENT);
                                     calendarStreak.setText(UtilityClass.getStreak(epochTimes));
+                                    calendarStreakDays.setText(UtilityClass.streakDayOrDays(Integer.valueOf(UtilityClass.getStreak(epochTimes))));
                                 }
                             })
                             .setNegativeButton("No", null);
@@ -128,11 +132,19 @@ public class CalendarActivity extends AppCompatActivity {
                                     epochTimes.add(UtilityClass.convertToEpoch(dateClicked));
                                     compactCalendarView.setCurrentSelectedDayBackgroundColor(Color.GREEN);
                                     calendarStreak.setText(UtilityClass.getStreak(epochTimes));
+                                    calendarStreakDays.setText(UtilityClass.streakDayOrDays(Integer.valueOf(UtilityClass.getStreak(epochTimes))));
                                 }
                             })
                             .setNegativeButton("No", null);
                     AlertDialog alertDialog = builder.create();
                     alertDialog.show();
+                }
+
+                if (epochTimes.contains(UtilityClass.convertToEpoch(today))) {
+                    compactCalendarView.setCurrentDayBackgroundColor(Color.GREEN);
+                }
+                else {
+                    compactCalendarView.setCurrentDayBackgroundColor(Color.TRANSPARENT);
                 }
             }
 
@@ -145,6 +157,7 @@ public class CalendarActivity extends AppCompatActivity {
             }
         });
         calendarStreak.setText(UtilityClass.getStreak(epochTimes));
+        calendarStreakDays.setText(UtilityClass.streakDayOrDays(Integer.valueOf(UtilityClass.getStreak(epochTimes))));
     }
 
 }
