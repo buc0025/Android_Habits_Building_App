@@ -1,10 +1,13 @@
 package com.example.HabitsBuildingApp.models;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -22,13 +25,13 @@ import java.util.Date;
 import java.util.List;
 
 public class WeekDayAdapter extends RecyclerView.Adapter<WeekDayAdapter.ViewHolder> {
-    private Integer[] dayPics = {R.drawable.sunday, R.drawable.monday, R.drawable.tuesday, R.drawable.wednesday
-            , R.drawable.thursday, R.drawable.friday, R.drawable.saturday};
 
     private Context context;
     private HabitManager habitManager;
     public List<Habit> habitList;
     private int listPosition;
+    private static final int DAYS_IN_A_WEEK = 7;
+    private List<Long> epochTimes;
 
     public WeekDayAdapter (Context context, int listPosition) {
         this.context = context;
@@ -44,23 +47,37 @@ public class WeekDayAdapter extends RecyclerView.Adapter<WeekDayAdapter.ViewHold
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        holder.weekDayImageView.setImageResource(dayPics[position]);
+        if (position == 0) {
+            holder.weekDayTextView.setText("Sun");
+        } else if (position == 1) {
+            holder.weekDayTextView.setText("Mon");
+        } else if (position == 2) {
+            holder.weekDayTextView.setText("Tue");
+        } else if (position == 3) {
+            holder.weekDayTextView.setText("Wed");
+        } else if (position == 4) {
+            holder.weekDayTextView.setText("Thur");
+        } else if (position == 5) {
+            holder.weekDayTextView.setText("Fri");
+        } else {
+            holder.weekDayTextView.setText("Sat");
+        }
     }
 
     @Override
     public int getItemCount() {
-        return dayPics.length;
+        return DAYS_IN_A_WEEK;
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        ImageView weekDayImageView;
         CardView cardView;
+        TextView weekDayTextView;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            weekDayImageView = itemView.findViewById(R.id.weekDayImageView);
             cardView = itemView.findViewById(R.id.cardView);
-            weekDayImageView.setOnClickListener(this);
+            weekDayTextView = (TextView) itemView.findViewById(R.id.weekDayTextView);
+            weekDayTextView.setOnClickListener(this);
         }
 
         @Override
@@ -95,16 +112,38 @@ public class WeekDayAdapter extends RecyclerView.Adapter<WeekDayAdapter.ViewHold
             habitList = habitManager.getAllHabits();
 
             // Need to pass in position of ListView
-            String habitID = habitList.get(listPosition).getHabitId();
+            final String habitID = habitList.get(listPosition).getHabitId();
 
-            if (v.getId() == weekDayImageView.getId()) {
+            epochTimes = habitManager.getHabitCompletedDates(habitID);
+            AlertDialog.Builder builder = new AlertDialog.Builder(context);
+
+            if (v.getId() == weekDayTextView.getId()) {
                 Date today = Calendar.getInstance().getTime();
-                Date dateClicked = UtilityClass.stringToDate(day);
+                final Date dateClicked = UtilityClass.stringToDate(day);
+                final String selectedDate = day;
 
                 if (UtilityClass.convertToEpoch(dateClicked) > UtilityClass.convertToEpoch(today)) {
-                    Toast.makeText(v.getContext(), "Future dates can't be added", Toast.LENGTH_SHORT).show();
+                    builder.setMessage("Future dates can't be added")
+                            .setPositiveButton("Ok", null);
+                    AlertDialog alertDialog = builder.create();
+                    alertDialog.show();
+                } else if (epochTimes.contains(UtilityClass.convertToEpoch(dateClicked))) {
+                    builder.setMessage("Are you sure you want to delete date?")
+                            .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    habitManager.deleteDate(habitID, selectedDate);
+
+                                    int index = epochTimes.indexOf(UtilityClass.convertToEpoch(dateClicked));
+                                    epochTimes.remove(index);
+                                }
+                            })
+                            .setNegativeButton("No", null);
+                    AlertDialog alertDialog = builder.create();
+                    alertDialog.show();
                 } else {
                     habitManager.addDate(habitID, day);
+                    epochTimes.add(UtilityClass.convertToEpoch(dateClicked));
                 }
             }
         }
