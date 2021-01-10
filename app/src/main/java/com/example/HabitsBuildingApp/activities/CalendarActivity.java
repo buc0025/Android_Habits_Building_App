@@ -27,25 +27,20 @@ import static com.github.sundeepk.compactcalendarview.CompactCalendarView.NO_FIL
 
 public class CalendarActivity extends AppCompatActivity {
 
+    private CompactCalendarView compactCalendarView;
     private TextView calendarReason;
     private TextView calendarStartDate;
-    CompactCalendarView compactCalendarView;
-    private SimpleDateFormat dateFormatMonth = new SimpleDateFormat("MMMM yyyy", Locale.getDefault());
-    TextView calendarMonth;
-    private HabitManager habitManager;
-    private List<Long> epochTimes;
     private TextView calendarStreak;
     private TextView calendarStreakDays;
+    private TextView calendarMonth;
+    private HabitManager habitManager;
+    private List<Long> epochTimes;
+    private SimpleDateFormat dateFormatMonth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_calendar);
-
-        calendarReason = (TextView) findViewById(R.id.calendarReason);
-        calendarStartDate = (TextView) findViewById(R.id.calendarStartDate);
-        calendarStreak = (TextView) findViewById(R.id.calendarStreak);
-        calendarStreakDays = (TextView) findViewById(R.id.calendarStreakDays);
 
         Intent intent = getIntent();
         final String habitName = intent.getExtras().getString("HabitName");
@@ -53,32 +48,32 @@ public class CalendarActivity extends AppCompatActivity {
         final String habitStartDate = intent.getExtras().getString("HabitStartDate");
         final String habitId = intent.getExtras().getString("HabitId");
 
+        calendarReason = (TextView) findViewById(R.id.calendarReason);
+        calendarStartDate = (TextView) findViewById(R.id.calendarStartDate);
+        calendarStreak = (TextView) findViewById(R.id.calendarStreak);
+        calendarStreakDays = (TextView) findViewById(R.id.calendarStreakDays);
+        calendarMonth = (TextView) findViewById(R.id.calendarMonth);
+        dateFormatMonth = new SimpleDateFormat("MMMM yyyy", Locale.getDefault());
+        habitManager = new HabitManager(CalendarActivity.this);
+        compactCalendarView = (CompactCalendarView) findViewById(R.id.compactcalendarView);
+        epochTimes = habitManager.getHabitCompletedDates(habitId);
+
         // Title for action bar and back button
         getSupportActionBar().setTitle(habitName);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        habitManager = new HabitManager(CalendarActivity.this);
-        epochTimes = habitManager.getHabitCompletedDates(habitId);
-
         calendarReason.setText(habitReason);
         calendarStartDate.setText(habitStartDate);
-
-        calendarMonth = (TextView) findViewById(R.id.calendarMonth);
-        compactCalendarView = (CompactCalendarView) findViewById(R.id.compactcalendarView);
         compactCalendarView.setUseThreeLetterAbbreviation(true);
         compactCalendarView.setFirstDayOfWeek(Calendar.SUNDAY);
         compactCalendarView.setEventIndicatorStyle(FILL_LARGE_INDICATOR);
+        calendarMonth.setText(dateFormatMonth.format(compactCalendarView.getFirstDayOfCurrentMonth()));
+        compactCalendarView.setCurrentDayIndicatorStyle(0);
 
         for (int i = 0; i < epochTimes.size(); i++) {
             Event completedDate = new Event(Color.GREEN, epochTimes.get(i), habitName);
             compactCalendarView.addEvent(completedDate);
         }
-
-        // Setting calendar month as current month until onMonthScroll() is called
-        calendarMonth.setText(dateFormatMonth.format(compactCalendarView.getFirstDayOfCurrentMonth()));
-
-        // Current date has no indicator once cursor is on another selected date
-        compactCalendarView.setCurrentDayIndicatorStyle(0);
 
         compactCalendarView.setListener(new CompactCalendarView.CompactCalendarViewListener() {
             @Override

@@ -37,8 +37,8 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         listView = (ListView) findViewById(R.id.listView);
-        noHabitsWarningImage = findViewById(R.id.noHabitsWarningImage);
-        noHabitsTextView = findViewById(R.id.noHabitsTextView);
+        noHabitsWarningImage = (ImageView) findViewById(R.id.noHabitsWarningImage);
+        noHabitsTextView = (TextView) findViewById(R.id.noHabitsTextView);
         habitManager = new HabitManager(MainActivity.this);
         habitList = habitManager.getAllHabits();
 

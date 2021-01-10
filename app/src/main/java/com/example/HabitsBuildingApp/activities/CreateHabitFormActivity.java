@@ -13,18 +13,20 @@ import com.example.HabitsBuildingApp.models.Habit;
 
 public class CreateHabitFormActivity extends AppCompatActivity {
 
-    EditText edtTextHabitName, edtTextReason, edtTextStartDate;
-    Button btnCreateHabit;
+    private EditText edtTextHabitName;
+    private EditText edtTextReason;
+    private EditText edtTextStartDate;
+    private Button btnCreateHabit;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_habit_form);
 
-        edtTextHabitName = findViewById(R.id.edtTextHabitName);
-        edtTextReason = findViewById(R.id.edtTextReason);
-        edtTextStartDate = findViewById(R.id.edtTextStartDate);
-        btnCreateHabit = findViewById(R.id.btnCreateHabit);
+        edtTextHabitName = (EditText) findViewById(R.id.edtTextHabitName);
+        edtTextReason = (EditText) findViewById(R.id.edtTextReason);
+        edtTextStartDate = (EditText) findViewById(R.id.edtTextStartDate);
+        btnCreateHabit = (Button) findViewById(R.id.btnCreateHabit);
 
         // Title for action bar and back button
         getSupportActionBar().setTitle("Create Habit");

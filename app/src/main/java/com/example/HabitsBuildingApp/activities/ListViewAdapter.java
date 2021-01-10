@@ -54,10 +54,12 @@ public class ListViewAdapter extends ArrayAdapter<Habit> {
         View view = layoutInflater.inflate(R.layout.habit_row, null, false);
 
         TextView streak = (TextView) view.findViewById(R.id.streakTextView);
-        streak.setText(UtilityClass.getStreak(epochTimes));
-
         TextView habitTextView = (TextView) view.findViewById(R.id.habitName);
+        TextView weekDayStreak = (TextView) view.findViewById(R.id.weekDayStreaks);
+
+        streak.setText(UtilityClass.getStreak(epochTimes));
         habitTextView.setText(habitName);
+        weekDayStreak.setText(UtilityClass.streakDayOrDays(Integer.valueOf(UtilityClass.getStreak(epochTimes))));
 
         TextView sun = view.findViewById(R.id.sunday);
         sun.setText(UtilityClass.listViewDates(0));

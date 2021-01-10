@@ -28,10 +28,10 @@ public class WeekDayAdapter extends RecyclerView.Adapter<WeekDayAdapter.ViewHold
 
     private Context context;
     private HabitManager habitManager;
-    public List<Habit> habitList;
+    private List<Habit> habitList;
+    private List<Long> epochTimes;
     private int listPosition;
     private static final int DAYS_IN_A_WEEK = 7;
-    private List<Long> epochTimes;
 
     public WeekDayAdapter (Context context, int listPosition) {
         this.context = context;
