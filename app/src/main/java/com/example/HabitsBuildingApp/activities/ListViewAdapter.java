@@ -24,7 +24,7 @@ import java.util.List;
 
 public class ListViewAdapter extends ArrayAdapter<Habit> {
 
-    private Context context;
+    public static Context context;
     private int resource;
     private List<Habit> habitList;
     private WeekDayAdapter weekDayAdapter;

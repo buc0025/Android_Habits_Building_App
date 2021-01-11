@@ -3,6 +3,8 @@ package com.example.HabitsBuildingApp.models;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +17,8 @@ import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.HabitsBuildingApp.R;
+import com.example.HabitsBuildingApp.activities.ListViewAdapter;
+import com.example.HabitsBuildingApp.activities.MainActivity;
 import com.example.HabitsBuildingApp.managers.HabitManager;
 import com.example.HabitsBuildingApp.managers.UtilityClass;
 
@@ -47,20 +51,19 @@ public class WeekDayAdapter extends RecyclerView.Adapter<WeekDayAdapter.ViewHold
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        if (position == 0) {
-            holder.weekDayTextView.setText("Sun");
-        } else if (position == 1) {
-            holder.weekDayTextView.setText("Mon");
-        } else if (position == 2) {
-            holder.weekDayTextView.setText("Tue");
-        } else if (position == 3) {
-            holder.weekDayTextView.setText("Wed");
-        } else if (position == 4) {
-            holder.weekDayTextView.setText("Thur");
-        } else if (position == 5) {
-            holder.weekDayTextView.setText("Fri");
-        } else {
-            holder.weekDayTextView.setText("Sat");
+
+        habitManager = new HabitManager(context);
+        habitList = habitManager.getAllHabits();
+        String habitId = habitList.get(listPosition).getHabitId();
+        epochTimes = habitManager.getHabitCompletedDates(habitId);
+
+        for (int i = 0; i < 7; i++) {
+            if (position == i) {
+                holder.weekDayTextView.setText(UtilityClass.dayAbbrev.get(i));
+            }
+            if (position == i && epochTimes.contains(UtilityClass.weekDayPositionToLong(position))) {
+                holder.cardView.setCardBackgroundColor(Color.GREEN);
+            }
         }
     }
 
@@ -136,6 +139,8 @@ public class WeekDayAdapter extends RecyclerView.Adapter<WeekDayAdapter.ViewHold
 
                                     int index = epochTimes.indexOf(UtilityClass.convertToEpoch(dateClicked));
                                     epochTimes.remove(index);
+                                    Intent intent = new Intent(context, MainActivity.class);
+                                    ListViewAdapter.context.startActivity(intent);
                                 }
                             })
                             .setNegativeButton("No", null);
@@ -144,6 +149,9 @@ public class WeekDayAdapter extends RecyclerView.Adapter<WeekDayAdapter.ViewHold
                 } else {
                     habitManager.addDate(habitID, day);
                     epochTimes.add(UtilityClass.convertToEpoch(dateClicked));
+                    Intent intent = new Intent(context, MainActivity.class);
+                    ListViewAdapter.context.startActivity(intent);
+                    cardView.setCardBackgroundColor(Color.GREEN);
                 }
             }
         }

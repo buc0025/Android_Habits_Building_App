@@ -6,11 +6,13 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 public class UtilityClass {
 
     private static final int DAY_IN_EPOCH_TIME = 86400000;
+    public static HashMap<Integer, String> dayAbbrev;
 
     public static String listViewDates(int day) {
         // Get calendar set to current date and time
@@ -147,5 +149,20 @@ public class UtilityClass {
         } else {
             return " days";
         }
+    }
+
+    public static long weekDayPositionToLong(int position) {
+        return convertToEpoch(stringToDate(weekDayAdapterDates(position)));
+    }
+
+    static {
+        dayAbbrev = new HashMap<>();
+        dayAbbrev.put(0, "Sun");
+        dayAbbrev.put(1, "Mon");
+        dayAbbrev.put(2, "Tue");
+        dayAbbrev.put(3, "Wed");
+        dayAbbrev.put(4, "Thur");
+        dayAbbrev.put(5, "Fri");
+        dayAbbrev.put(6, "Sat");
     }
 }

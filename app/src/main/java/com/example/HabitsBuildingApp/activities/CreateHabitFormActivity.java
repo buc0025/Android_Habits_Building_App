@@ -2,6 +2,7 @@ package com.example.HabitsBuildingApp.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -42,6 +43,8 @@ public class CreateHabitFormActivity extends AppCompatActivity {
                         edtTextStartDate.getText().toString().trim());
 
                 habitManager.addHabit(habit);
+                Intent intent = new Intent(CreateHabitFormActivity.this, MainActivity.class);
+                startActivity(intent);
             }
         });
     }

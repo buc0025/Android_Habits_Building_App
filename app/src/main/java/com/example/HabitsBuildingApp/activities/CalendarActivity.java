@@ -171,12 +171,21 @@ public class CalendarActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.deleteHabit) {
-            Intent intent = getIntent();
-            final String habitId = intent.getExtras().getString("HabitId");
-            habitManager.deleteHabit(habitId);
-
-            Intent goToMain = new Intent(CalendarActivity.this, MainActivity.class);
-            startActivity(goToMain);
+            AlertDialog.Builder builder = new AlertDialog.Builder(CalendarActivity.this);
+            builder.setMessage("Are you sure you want to delete habit?")
+                    .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            Intent intent = getIntent();
+                            final String habitId = intent.getExtras().getString("HabitId");
+                            habitManager.deleteHabit(habitId);
+                            Intent goToMain = new Intent(CalendarActivity.this, MainActivity.class);
+                            startActivity(goToMain);
+                        }
+                    })
+                    .setNegativeButton("No", null);
+            AlertDialog alertDialog = builder.create();
+            alertDialog.show();
         }
         return super.onOptionsItemSelected(item);
     }
