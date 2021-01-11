@@ -4,8 +4,12 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -153,6 +157,28 @@ public class CalendarActivity extends AppCompatActivity {
         });
         calendarStreak.setText(UtilityClass.getStreak(epochTimes));
         calendarStreakDays.setText(UtilityClass.streakDayOrDays(Integer.valueOf(UtilityClass.getStreak(epochTimes))));
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater menuInflater = getMenuInflater();
+        menuInflater.inflate(R.menu.delete_habit_toolbar, menu);
+
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        int id = item.getItemId();
+        if (id == R.id.deleteHabit) {
+            Intent intent = getIntent();
+            final String habitId = intent.getExtras().getString("HabitId");
+            habitManager.deleteHabit(habitId);
+
+            Intent goToMain = new Intent(CalendarActivity.this, MainActivity.class);
+            startActivity(goToMain);
+        }
+        return super.onOptionsItemSelected(item);
     }
 
 }

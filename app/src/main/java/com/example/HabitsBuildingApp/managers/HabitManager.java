@@ -164,10 +164,11 @@ public class HabitManager extends SQLiteOpenHelper {
         return maxStreak;
     }
 
-    public void deleteHabit(Habit habit) {
+    public void deleteHabit(String habitId) {
         SQLiteDatabase db = this.getWritableDatabase();
-        long result = db.delete(HABIT_TABLE_NAME, "id=?", new String[] {habit.getHabitId()});
-        if (result == -1) {
+        long result = db.delete(HABIT_TABLE_NAME, "id=?", new String[] {habitId});
+        long resultDate = db.delete(DATE_TABLE_NAME, "id=?", new String[] {habitId});
+        if (result == -1 || resultDate == -1) {
             Toast.makeText(context, "Delete failed", Toast.LENGTH_SHORT).show();
         } else {
             Toast.makeText(context, "Successfully deleted", Toast.LENGTH_SHORT).show();
