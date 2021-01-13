@@ -13,8 +13,9 @@ public class UtilityClass {
 
     private static final int DAY_IN_EPOCH_TIME = 86400000;
     public static HashMap<Integer, String> dayAbbrev;
+    public static HashMap<String, String> monthAbbrev;
 
-    public static String listViewDates(int day) {
+    public static String weekViewDate(int day) {
         // Get calendar set to current date and time
         Calendar calendar = Calendar.getInstance();
 
@@ -25,34 +26,31 @@ public class UtilityClass {
 
         // Set dates of the current week starting on Sunday
         for (int i = 0; i < 7; i++) {
-            if (i == 0 && day == 0) {
-                return dateFormat.format(calendar.getTime());
-            }
-            if (i == 1 && day == 1) {
-                return dateFormat.format(calendar.getTime());
-            }
-            if (i == 2 && day == 2) {
-                return dateFormat.format(calendar.getTime());
-            }
-            if (i == 3 && day == 3) {
-                return dateFormat.format(calendar.getTime());
-            }
-            if (i == 4 && day == 4) {
-                return dateFormat.format(calendar.getTime());
-            }
-            if (i == 5 && day == 5) {
-                return dateFormat.format(calendar.getTime());
-            }
-            if (i == 6 && day == 6) {
+            if (i == 6 - day && day == 6 - i) {
                 return dateFormat.format(calendar.getTime());
             }
             calendar.add(Calendar.DATE, 1);
         }
 
+        Calendar lastWeek = Calendar.getInstance();
+        lastWeek.set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY);
+        lastWeek.add(Calendar.DATE, -1);
+
+        for (int i = 7; i < 14; i++) {
+            if (i == day && day == i) {
+                return dateFormat.format(lastWeek.getTime());
+            }
+            lastWeek.add(Calendar.DATE, -1);
+        }
+
         return dateFormat.format(calendar.getTime());
     }
 
-    public static String weekDayAdapterDates(int day) {
+    public static String monthAbbreviation(String month) {
+        return monthAbbrev.get(month.substring(0,2));
+    }
+
+    public static String weekViewAdapterDate(int day) {
         // Get calendar set to current date and time
         Calendar calendar = Calendar.getInstance();
 
@@ -63,28 +61,21 @@ public class UtilityClass {
 
         // Set dates of the current week starting on Sunday
         for (int i = 0; i < 7; i++) {
-            if (i == 0 && day == 0) {
-                return dateFormat.format(calendar.getTime());
-            }
-            if (i == 1 && day == 1) {
-                return dateFormat.format(calendar.getTime());
-            }
-            if (i == 2 && day == 2) {
-                return dateFormat.format(calendar.getTime());
-            }
-            if (i == 3 && day == 3) {
-                return dateFormat.format(calendar.getTime());
-            }
-            if (i == 4 && day == 4) {
-                return dateFormat.format(calendar.getTime());
-            }
-            if (i == 5 && day == 5) {
-                return dateFormat.format(calendar.getTime());
-            }
-            if (i == 6 && day == 6) {
+            if (i == day && day == i) {
                 return dateFormat.format(calendar.getTime());
             }
             calendar.add(Calendar.DATE, 1);
+        }
+
+        Calendar lastWeek = Calendar.getInstance();
+        lastWeek.set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY);
+        lastWeek.add(Calendar.DATE, -1);
+
+        for (int i = 7; i < 14; i++) {
+            if (i == day && day == i) {
+                return dateFormat.format(lastWeek.getTime());
+            }
+            lastWeek.add(Calendar.DATE, -1);
         }
 
         return dateFormat.format(calendar.getTime());
@@ -152,17 +143,69 @@ public class UtilityClass {
     }
 
     public static long weekDayPositionToLong(int position) {
-        return convertToEpoch(stringToDate(weekDayAdapterDates(position)));
+        return convertToEpoch(stringToDate(weekAdapterDates(position)));
+    }
+
+    public static String weekAdapterDates(int day) {
+        // Get calendar set to current date and time
+        Calendar calendar = Calendar.getInstance();
+
+        // Set calendar to Sunday of the current week
+        calendar.set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY);
+
+        DateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
+
+        // Set dates of the current week starting on Sunday
+        for (int i = 0; i < 7; i++) {
+            if (i == 6 - day && day == 6 - i) {
+                return dateFormat.format(calendar.getTime());
+            }
+            calendar.add(Calendar.DATE, 1);
+        }
+
+        Calendar lastWeek = Calendar.getInstance();
+        lastWeek.set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY);
+        lastWeek.add(Calendar.DATE, -1);
+
+        for (int i = 7; i < 14; i++) {
+            if (i == day && day == i) {
+                return dateFormat.format(lastWeek.getTime());
+            }
+            lastWeek.add(Calendar.DATE, -1);
+        }
+
+        return dateFormat.format(calendar.getTime());
     }
 
     static {
         dayAbbrev = new HashMap<>();
-        dayAbbrev.put(0, "Sun");
-        dayAbbrev.put(1, "Mon");
-        dayAbbrev.put(2, "Tue");
+        dayAbbrev.put(13, "Sun");
+        dayAbbrev.put(12, "Mon");
+        dayAbbrev.put(11, "Tue");
+        dayAbbrev.put(10, "Wed");
+        dayAbbrev.put(9, "Thur");
+        dayAbbrev.put(8, "Fri");
+        dayAbbrev.put(7, "Sat");
+        dayAbbrev.put(6, "Sun");
+        dayAbbrev.put(5, "Mon");
+        dayAbbrev.put(4, "Tue");
         dayAbbrev.put(3, "Wed");
-        dayAbbrev.put(4, "Thur");
-        dayAbbrev.put(5, "Fri");
-        dayAbbrev.put(6, "Sat");
+        dayAbbrev.put(2, "Thur");
+        dayAbbrev.put(1, "Fri");
+        dayAbbrev.put(0, "Sat");
+
+        monthAbbrev = new HashMap<>();
+        monthAbbrev.put("01", "Jan");
+        monthAbbrev.put("02", "Feb");
+        monthAbbrev.put("03", "Mar");
+        monthAbbrev.put("04", "Apr");
+        monthAbbrev.put("05", "May");
+        monthAbbrev.put("06", "Jun");
+        monthAbbrev.put("07", "Jul");
+        monthAbbrev.put("08", "Aug");
+        monthAbbrev.put("09", "Sept");
+        monthAbbrev.put("10", "Oct");
+        monthAbbrev.put("11", "Nov");
+        monthAbbrev.put("12", "Dec");
     }
 }

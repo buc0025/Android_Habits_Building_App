@@ -8,9 +8,7 @@ import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
@@ -22,8 +20,6 @@ import com.example.HabitsBuildingApp.activities.MainActivity;
 import com.example.HabitsBuildingApp.managers.HabitManager;
 import com.example.HabitsBuildingApp.managers.UtilityClass;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -35,7 +31,7 @@ public class WeekDayAdapter extends RecyclerView.Adapter<WeekDayAdapter.ViewHold
     private List<Habit> habitList;
     private List<Long> epochTimes;
     private int listPosition;
-    private static final int DAYS_IN_A_WEEK = 7;
+    private static final int DAYS_IN_TWO_WEEKS = 14;
 
     public WeekDayAdapter (Context context, int listPosition) {
         this.context = context;
@@ -57,9 +53,11 @@ public class WeekDayAdapter extends RecyclerView.Adapter<WeekDayAdapter.ViewHold
         String habitId = habitList.get(listPosition).getHabitId();
         epochTimes = habitManager.getHabitCompletedDates(habitId);
 
-        for (int i = 0; i < 7; i++) {
+        for (int i = 0; i < 14; i++) {
             if (position == i) {
                 holder.weekDayTextView.setText(UtilityClass.dayAbbrev.get(i));
+                holder.weekViewDate.setText(UtilityClass.weekViewDate(i));
+                holder.weekViewMonth.setText(UtilityClass.monthAbbreviation(UtilityClass.weekViewAdapterDate(i)));
             }
             if (position == i && epochTimes.contains(UtilityClass.weekDayPositionToLong(position))) {
                 holder.cardView.setCardBackgroundColor(Color.GREEN);
@@ -69,18 +67,26 @@ public class WeekDayAdapter extends RecyclerView.Adapter<WeekDayAdapter.ViewHold
 
     @Override
     public int getItemCount() {
-        return DAYS_IN_A_WEEK;
+        return DAYS_IN_TWO_WEEKS;
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         CardView cardView;
+        CardView cardView2;
         TextView weekDayTextView;
+        TextView weekViewMonth;
+        TextView weekViewDate;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             cardView = itemView.findViewById(R.id.cardView);
             weekDayTextView = (TextView) itemView.findViewById(R.id.weekDayTextView);
-            weekDayTextView.setOnClickListener(this);
+            cardView2 = (CardView) itemView.findViewById(R.id.cardView2);
+            weekViewMonth = (TextView) itemView.findViewById(R.id.weekViewMonth);
+            weekViewDate = (TextView) itemView.findViewById(R.id.weekViewDate);
+
+            weekViewDate.setOnClickListener(this);
+            weekViewMonth.setOnClickListener(this);
         }
 
         @Override
@@ -88,28 +94,17 @@ public class WeekDayAdapter extends RecyclerView.Adapter<WeekDayAdapter.ViewHold
             habitManager = new HabitManager(context);
 
             String day = "";
-            switch (getAdapterPosition()) {
-                case 0:
-                    day = UtilityClass.weekDayAdapterDates(0);
-                    break;
-                case 1:
-                    day = UtilityClass.weekDayAdapterDates(1);
-                    break;
-                case 2:
-                    day = UtilityClass.weekDayAdapterDates(2);
-                    break;
-                case 3:
-                    day = UtilityClass.weekDayAdapterDates(3);
-                    break;
-                case 4:
-                    day = UtilityClass.weekDayAdapterDates(4);
-                    break;
-                case 5:
-                    day = UtilityClass.weekDayAdapterDates(5);
-                    break;
-                case 6:
-                    day = UtilityClass.weekDayAdapterDates(6);
-                    break;
+
+            for (int i = 0; i < 7; i++) {
+                if (getAdapterPosition() == i) {
+                    day = UtilityClass.weekViewAdapterDate(6 - i);
+                }
+            }
+
+            for (int i = 7; i < 14; i++) {
+                if (getAdapterPosition() == i) {
+                    day = UtilityClass.weekViewAdapterDate(i);
+                }
             }
 
             habitList = habitManager.getAllHabits();
@@ -120,7 +115,7 @@ public class WeekDayAdapter extends RecyclerView.Adapter<WeekDayAdapter.ViewHold
             epochTimes = habitManager.getHabitCompletedDates(habitID);
             AlertDialog.Builder builder = new AlertDialog.Builder(context);
 
-            if (v.getId() == weekDayTextView.getId()) {
+            if (v.getId() == weekViewDate.getId() || v.getId() == weekViewMonth.getId()) {
                 Date today = Calendar.getInstance().getTime();
                 final Date dateClicked = UtilityClass.stringToDate(day);
                 final String selectedDate = day;
@@ -141,6 +136,7 @@ public class WeekDayAdapter extends RecyclerView.Adapter<WeekDayAdapter.ViewHold
                                     epochTimes.remove(index);
                                     Intent intent = new Intent(context, MainActivity.class);
                                     ListViewAdapter.context.startActivity(intent);
+                                    cardView2.setCardBackgroundColor(Color.WHITE);
                                 }
                             })
                             .setNegativeButton("No", null);
@@ -151,7 +147,7 @@ public class WeekDayAdapter extends RecyclerView.Adapter<WeekDayAdapter.ViewHold
                     epochTimes.add(UtilityClass.convertToEpoch(dateClicked));
                     Intent intent = new Intent(context, MainActivity.class);
                     ListViewAdapter.context.startActivity(intent);
-                    cardView.setCardBackgroundColor(Color.GREEN);
+                    cardView2.setCardBackgroundColor(Color.GREEN);
                 }
             }
         }

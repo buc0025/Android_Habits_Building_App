@@ -61,25 +61,11 @@ public class ListViewAdapter extends ArrayAdapter<Habit> {
         habitTextView.setText(habitName);
         weekDayStreak.setText(UtilityClass.streakDayOrDays(Integer.valueOf(UtilityClass.getStreak(epochTimes))));
 
-        TextView sun = view.findViewById(R.id.sunday);
-        sun.setText(UtilityClass.listViewDates(0));
-        TextView mon = view.findViewById(R.id.monday);
-        mon.setText(UtilityClass.listViewDates(1));
-        TextView tues = view.findViewById(R.id.tuesday);
-        tues.setText(UtilityClass.listViewDates(2));
-        TextView wed = view.findViewById(R.id.wednesday);
-        wed.setText(UtilityClass.listViewDates(3));
-        TextView thur = view.findViewById(R.id.thursday);
-        thur.setText(UtilityClass.listViewDates(4));
-        TextView fri = view.findViewById(R.id.friday);
-        fri.setText(UtilityClass.listViewDates(5));
-        TextView sat = view.findViewById(R.id.saturday);
-        sat.setText(UtilityClass.listViewDates(6));
-
         RecyclerView recyclerView = view.findViewById(R.id.recyclerView);
         recyclerView.setAdapter(weekDayAdapter);
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false);
+        linearLayoutManager.setReverseLayout(true);
         recyclerView.setLayoutManager(linearLayoutManager);
 
         return view;

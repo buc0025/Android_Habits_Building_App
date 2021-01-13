@@ -145,25 +145,6 @@ public class HabitManager extends SQLiteOpenHelper {
         return listOfCompletedDates;
     }
 
-    public boolean isHabitCompleted(Habit habit) {
-        Date today;
-        return isHabitCompleted(habit, today);
-    }
-
-    public boolean isHabitCompleted(Habit habit, Date date) {
-
-    }
-
-    public int getCurrentStreak(Habit habit) {
-        int currentStreak;
-        return currentStreak;
-    }
-
-    public int getMaxStreak(Habit habit) {
-        int maxStreak;
-        return maxStreak;
-    }
-
     public void deleteHabit(String habitId) {
         SQLiteDatabase db = this.getWritableDatabase();
         long result = db.delete(HABIT_TABLE_NAME, "id=?", new String[] {habitId});
