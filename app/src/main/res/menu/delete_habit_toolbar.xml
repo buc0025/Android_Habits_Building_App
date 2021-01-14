@@ -2,6 +2,11 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
+    <item android:id="@+id/shareHabit"
+        android:icon="@drawable/ic_share_habit"
+        android:title="Share Habit"
+        app:showAsAction="ifRoom"/>
+
     <item android:id="@+id/deleteHabit"
         android:icon="@drawable/ic_delete_habit"
         android:title="Delete Habit"

@@ -24,7 +24,7 @@ public class SplashScreenActivity extends AppCompatActivity {
                 .withFooterText("Created by Stanley")
                 .withLogo(R.drawable.habits_logo);
 
-        easySplashScreen.getFooterTextView().setTextColor(Color.WHITE);
+        easySplashScreen.getFooterTextView().setTextColor(Color.GRAY);
         easySplashScreen.getFooterTextView().setTextSize(20);
 
         View splashScreen = easySplashScreen.create();

@@ -40,6 +40,7 @@ public class CalendarActivity extends AppCompatActivity {
     private HabitManager habitManager;
     private List<Long> epochTimes;
     private SimpleDateFormat dateFormatMonth;
+    private String shareHabit;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +52,7 @@ public class CalendarActivity extends AppCompatActivity {
         final String habitReason = intent.getExtras().getString("HabitReason");
         final String habitStartDate = intent.getExtras().getString("HabitStartDate");
         final String habitId = intent.getExtras().getString("HabitId");
+        shareHabit = intent.getExtras().getString("HabitName");
 
         calendarReason = (TextView) findViewById(R.id.calendarReason);
         calendarStartDate = (TextView) findViewById(R.id.calendarStartDate);
@@ -73,6 +75,14 @@ public class CalendarActivity extends AppCompatActivity {
         compactCalendarView.setEventIndicatorStyle(FILL_LARGE_INDICATOR);
         calendarMonth.setText(dateFormatMonth.format(compactCalendarView.getFirstDayOfCurrentMonth()));
         compactCalendarView.setCurrentDayIndicatorStyle(0);
+
+        Date today = Calendar.getInstance().getTime();
+
+        if (epochTimes.contains(UtilityClass.convertToEpoch(today))) {
+            compactCalendarView.setCurrentSelectedDayBackgroundColor(Color.GREEN);
+        } else {
+            compactCalendarView.setCurrentSelectedDayBackgroundColor(Color.WHITE);
+        }
 
         for (int i = 0; i < epochTimes.size(); i++) {
             Event completedDate = new Event(Color.GREEN, epochTimes.get(i), habitName);
@@ -186,6 +196,18 @@ public class CalendarActivity extends AppCompatActivity {
                     .setNegativeButton("No", null);
             AlertDialog alertDialog = builder.create();
             alertDialog.show();
+        }
+
+        if (id == R.id.shareHabit) {
+            Intent sharingIntent = new Intent(Intent.ACTION_SEND);
+            sharingIntent.setType("text/plain");
+            String shareBody = "The habit I'm going to build is " + shareHabit;
+            String shareSubject = "I want to build a new habit!";
+
+            sharingIntent.putExtra(Intent.EXTRA_TEXT, shareBody);
+            sharingIntent.putExtra(Intent.EXTRA_SUBJECT, shareSubject);
+
+            startActivity(Intent.createChooser(sharingIntent, "Share Using"));
         }
         return super.onOptionsItemSelected(item);
     }
