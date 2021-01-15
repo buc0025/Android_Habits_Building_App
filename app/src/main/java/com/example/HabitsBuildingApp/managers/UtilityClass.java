@@ -22,7 +22,7 @@ public class UtilityClass {
         // Set calendar to Sunday of the current week
         calendar.set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY);
 
-        DateFormat dateFormat = new SimpleDateFormat("MM/dd");
+        DateFormat dateFormat = new SimpleDateFormat("dd");
 
         // Set dates of the current week starting on Sunday
         for (int i = 0; i < 7; i++) {

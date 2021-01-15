@@ -60,7 +60,7 @@ public class WeekDayAdapter extends RecyclerView.Adapter<WeekDayAdapter.ViewHold
                 holder.weekViewMonth.setText(UtilityClass.monthAbbreviation(UtilityClass.weekViewAdapterDate(i)));
             }
             if (position == i && epochTimes.contains(UtilityClass.weekDayPositionToLong(position))) {
-                holder.cardView.setCardBackgroundColor(Color.GREEN);
+                holder.cardView2.setCardBackgroundColor(Color.GREEN);
             }
         }
     }
@@ -85,8 +85,7 @@ public class WeekDayAdapter extends RecyclerView.Adapter<WeekDayAdapter.ViewHold
             weekViewMonth = (TextView) itemView.findViewById(R.id.weekViewMonth);
             weekViewDate = (TextView) itemView.findViewById(R.id.weekViewDate);
 
-            weekViewDate.setOnClickListener(this);
-            weekViewMonth.setOnClickListener(this);
+            cardView2.setOnClickListener(this);
         }
 
         @Override
@@ -115,7 +114,7 @@ public class WeekDayAdapter extends RecyclerView.Adapter<WeekDayAdapter.ViewHold
             epochTimes = habitManager.getHabitCompletedDates(habitID);
             AlertDialog.Builder builder = new AlertDialog.Builder(context);
 
-            if (v.getId() == weekViewDate.getId() || v.getId() == weekViewMonth.getId()) {
+            if (v.getId() == cardView2.getId()) {
                 Date today = Calendar.getInstance().getTime();
                 final Date dateClicked = UtilityClass.stringToDate(day);
                 final String selectedDate = day;
