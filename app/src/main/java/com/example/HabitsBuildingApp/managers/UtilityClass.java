@@ -61,7 +61,7 @@ public class UtilityClass {
 
         // Set dates of the current week starting on Sunday
         for (int i = 0; i < 7; i++) {
-            if (i == day && day == i) {
+            if (i == 6 - day && day == 6 - i) {
                 return dateFormat.format(calendar.getTime());
             }
             calendar.add(Calendar.DATE, 1);
