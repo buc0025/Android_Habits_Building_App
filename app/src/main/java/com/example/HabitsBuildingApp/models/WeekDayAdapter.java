@@ -96,7 +96,7 @@ public class WeekDayAdapter extends RecyclerView.Adapter<WeekDayAdapter.ViewHold
 
             for (int i = 0; i < 7; i++) {
                 if (getAdapterPosition() == i) {
-                    day = UtilityClass.weekViewAdapterDate(6 - i);
+                    day = UtilityClass.weekViewAdapterDate(i);
                 }
             }
 
